@@ -1,0 +1,100 @@
+La réunion va durer 50-55 minutes.
+
+Je compte parler 35-40 minutes puis garder un temps pour les questions.
+
+Le public c'est 10-12 personnes de mon équipe avec qui j'ai beaucoup rigolé durant le stage. Il ne connaissent pas le sujet des compagnon en détails même si on en a déjà parler avec certains. Mais ils ont la capacité de comprednre vite. Ils sont tous plutôt orientés business donc vulgarise mais reste technique pour impressionnere.
+
+La date c'est aujourd'hui.
+
+Mon stage ça a été un Summer STEM. J'étais dans l'équipe de Global Demand Planning au sein de la Global NOE (network of excellence, anciennement DGO) au sein de la E2E S&OP (end to end sales and operations planning) à L'Oréal Opérations.
+
+A partir de maintenant, plus de phrase "validations technique ou quoi" on fait la vraie présentation directement.
+
+
+
+Tu trouveras dans le dossier "_content_unorganized/presentation_finale_content" les information dont tu vas avoir besoin pour build une présentation captivante sur (moi et mon travail) + (masterclass accélérée sur les compagnons disponible dans l'oréal GPT) + (technique de prompting rapidement). Et disperser dans chaque partie (sauf celle sur mon travail) des questionnaires. Les questionnaires ne sont pas là pour valider ce que je dit mais soit pour introduire ce qu'on va dire soit pour rajouter une idée pertinente. Le but c'est qu'il servent la présentation pour la rendre le moins boring possible.
+
+Voici les sous dossier rapidement :
+
+- dossier image = quelques image pour illustrer, si tu n'as pas, alors créer des schémas rapides pour illustrer aussi
+
+- art of crafting compagnon = le training pour faire des myCompagnon et des Teamcompagnon (pour la partie 2)
+
+- guide de révision quizz IA Générative (pour la partie 3)
+
+- how to build compagnon.pptx = un pptx explicatif d'un ami qu'il a présenté à sa team de son côté (partie 2)
+
+- metier comapgnon triing pfootprint = j'ai copier coller le training des metier compagnon, c'est super, il y a plein de tips et bonne idée et recommendations. En plus, j'ai mis en sousligné et italique les quizz. (tout sur les compagnons métiers pour la partie 2 - aussi des info sur les modèle et les technique de prompting pour la partie 3)
+
+- one note de Louis… = mon OneNote pour préparer la présentation (pas très important, juste pour le contexte et récupérer quelques idées
+
+- Template Q&A = important : pour un métier compagnon il faut le tester, voici le Template csv qu'il faut fournir au moteur des test pour réaliser les tests automatiques.
+
+
+
+
+
+L'objectif principale est de faire une présentation intéressente pour l'équipe pour ne pas qu'ils s'ennuient à écouter quelque chose qu'ils ont déjà entendu 1000 fois. L'objectif est aussi d'améliorer les compétences techniques spécifiquement en IA et en compagnon de l'équipe
+
+
+
+
+
+
+
+Pour te donner des idées de contenu, voici ce que j'avais en tête :
+
+
+
+- Slide de titre
+
+- slide de plan (1. Résumé rapide de mes achievements du stage)
+
+- partie 1 - presentation de mon parcours depuis la prépa, les mines, stage iter, stage Berkeley, stage L'Oréal, fin des mines 3A, et puis "?"
+
+- partie 1 - présentation des achievements du stage (1. soutenir le Monthly assessment tool qui est une web app que j'ai amélioré et soutenu pour qu'elle soit responsive ; 2. Disscussions avec des DP pour recevoir des feedback sur les Touchlessforecsting 3. disscussion avec des acteur des comagnon et de L'Oréal GPT pour en savoir plus sur l'architecture sous-jacente 4. construction du Compagnon Chat with Touchless BLOOM)
+
+- slide de connexion au téléphone
+
+- Là je souhaite qu'il il ait un nouveau truc interactif où ils puissent chacun sur leur téléphone rentrer des mots (minimum 3 maximum 5) qui leur font penser à "IA Générative". Puis visualisation des résultats sous forme de carte de bulle de mot avec des bulles plus ou moins grosses en fonction de la fréquence. Puis idem avec le mot (compagnon).
+
+- partie 2 - mini-master class compagnon = utlise ce que je t'ai fourni pour donner les principales idées sur les compagnons.
+
+	- la différence entre les type de compagnon
+
+	- comment le créer
+
+	- spécifique aux compagnons métiers : advances capabilities
+
+	- comment le faire valider
+
+	- etc (je te fais confiance)
+
+[intercale de quizz comment on a discuté plus haut, pour rendre interactif l'échange - ici principalement après pour voir si ils ont suivi]
+
+- partie 3 - idée et tips pour l'ia generative et le prompting en général
+
+	- méthode craft
+
+	- ce que j'ai écrit dans l'extract One note (dire "rendre dans une box à copier coller" etc)
+
+	- méthode de prompt engineering (attention ils s'y connaissent plutôt bien donc ne dit pas les truc de base mais sélectionne une petite 5 de tips)
+
+[idem pour les quizz - mais ici principalement avant pour voir ce qu'il pensent avant de dire le tips]
+
+- Résultat des quizz avec le podium
+
+- conclusion et remerciement
+
+
+
+
+
+Pou les quizz, quand tu génère les réponse fausse, fait en sorte qu'elle soit difficile à trouver mais quand même qu'il n'y ait pas d'ambiguïté. Soit créatif et drôle subtilement.
+
+
+
+
+
+Fait tout en anglais directement dans le front end (les 2 fronts end).
+

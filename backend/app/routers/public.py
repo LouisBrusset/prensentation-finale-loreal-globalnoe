@@ -71,7 +71,7 @@ async def join(payload: JoinRequest) -> JoinResponse:
 async def get_activity(activity_id: str) -> dict:
     activity = ACTIVITIES_BY_ID.get(activity_id)
     if activity is None:
-        raise HTTPException(404, f"Activite inconnue : {activity_id}")
+        raise HTTPException(404, f"Unknown activity: {activity_id}")
     reveal = store.activity_id == activity_id and store.status == "revealed"
     return activity.public(reveal=reveal)
 
@@ -83,26 +83,38 @@ async def get_activity(activity_id: str) -> dict:
 async def answer(activity_id: str, question_id: str, payload: AnswerRequest) -> AnswerResponse:
     activity = ACTIVITIES_BY_ID.get(activity_id)
     if activity is None:
-        raise HTTPException(404, f"Activite inconnue : {activity_id}")
-    if not any(q.id == question_id for q in activity.questions):
-        raise HTTPException(404, f"Question inconnue : {question_id}")
+        raise HTTPException(404, f"Unknown activity: {activity_id}")
+    question = next((q for q in activity.questions if q.id == question_id), None)
+    if question is None:
+        raise HTTPException(404, f"Unknown question: {question_id}")
 
     participant = store.participants.get(payload.participant_id)
     if participant is None:
-        raise HTTPException(401, "Participant inconnu, rejoins la session a nouveau")
+        raise HTTPException(401, "Unknown participant, please rejoin the session")
 
     if store.status != "open" or store.activity_id != activity_id:
         return AnswerResponse(
             accepted=False,
-            reason="Les votes sont fermes pour cette question",
+            reason="Voting is closed for this question",
             total_score=participant.score,
         )
     if store.has_answered(activity_id, question_id, payload.participant_id):
         return AnswerResponse(
             accepted=False,
-            reason="Tu as deja repondu a cette question",
+            reason="You already answered this question",
             total_score=participant.score,
         )
+
+    if question.kind == "words":
+        words = [w.strip() for w in payload.words if w.strip()]
+        if not (question.min_words <= len(words) <= question.max_words):
+            return AnswerResponse(
+                accepted=False,
+                reason=f"Submit between {question.min_words} and {question.max_words} words",
+                total_score=participant.score,
+            )
+    else:
+        words = []
 
     awarded, elapsed_ms = store.record_answer(
         activity_id,
@@ -110,6 +122,7 @@ async def answer(activity_id: str, question_id: str, payload: AnswerRequest) -> 
         payload.participant_id,
         payload.option_ids,
         payload.elapsed_ms,
+        words=words,
     )
 
     await push_state()
@@ -128,7 +141,7 @@ async def answer(activity_id: str, question_id: str, payload: AnswerRequest) -> 
 @router.get("/results/{activity_id}", response_model=ActivityResults)
 async def results(activity_id: str) -> ActivityResults:
     if activity_id not in ACTIVITIES_BY_ID:
-        raise HTTPException(404, f"Activite inconnue : {activity_id}")
+        raise HTTPException(404, f"Unknown activity: {activity_id}")
     return store.results_for(activity_id)
 
 

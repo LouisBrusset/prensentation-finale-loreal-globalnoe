@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Présentation finale de stage — deck</title>
+  <title>Final Presentation — Louis Brusset</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/deck.css" />
   <script src="config.js"></script>
@@ -12,252 +12,455 @@
 
 <!-- Bandeau d'état : connexion backend, nb de participants, aide clavier -->
 <header class="hud">
-  <span class="hud-dot" id="hud-dot" title="Etat de la connexion temps reel"></span>
-  <span id="hud-status">connexion…</span>
+  <span class="hud-dot" id="hud-dot" title="Realtime connection status"></span>
+  <span id="hud-status">connecting…</span>
   <span class="hud-sep">·</span>
-  <span><b id="hud-participants">0</b> participants</span>
+  <span><b id="hud-participants">0</b> in the room</span>
   <span class="hud-sep">·</span>
-  <span id="hud-slide">1 / 12</span>
-  <button class="hud-btn" id="hud-help" title="Raccourcis clavier">?</button>
+  <span id="hud-slide">1 / 22</span>
+  <button class="hud-btn" id="hud-help" title="Keyboard shortcuts">?</button>
 </header>
 
 <main id="deck">
 
-  <!-- ================= 1. Titre ================= -->
+  <!-- ================= 1. Title ================= -->
   <section class="slide slide--cover" data-slide-id="s01-title">
-    <p class="eyebrow">Présentation finale de stage</p>
-    <h1>Six mois à apprendre<br />comment <em>vraiment</em> utiliser l'IA générative</h1>
-    <p class="lede">Louis Brusset — <span class="placeholder">date à confirmer</span></p>
-    <p class="footnote">Contenu bouchon : cette version sert à valider la technique.</p>
+    <p class="eyebrow">Summer STEM · Final Presentation</p>
+    <h1>I thought I'd be forecasting demand.<br />I ended up building <em>AI Companions</em>.</h1>
+    <p class="lede">Louis Brusset — Global Demand Planning, E2E S&amp;OP, L'Oréal Operations</p>
+    <p class="footnote">27 August 2026</p>
   </section>
 
-  <!-- ================= 2. Rejoindre ================= -->
-  <section class="slide slide--join" data-slide-id="s02-join">
+  <!-- ================= 2. Agenda ================= -->
+  <section class="slide" data-slide-id="s02-agenda">
+    <p class="eyebrow">Roughly 40 minutes, then it's your turn to grill me</p>
+    <h2>What's on the menu</h2>
+    <div class="cards cards--4">
+      <article class="card">
+        <span class="tag">01</span>
+        <h3>Me, fast-forwarded</h3>
+        <p>The journey, and what I actually shipped — one slide, promise.</p>
+      </article>
+      <article class="card">
+        <span class="tag">02</span>
+        <h3>Companion masterclass</h3>
+        <p>How L'OréalGPT's Companions actually work, from the inside.</p>
+      </article>
+      <article class="card">
+        <span class="tag">03</span>
+        <h3>The prompting playbook</h3>
+        <p>Five tips you probably don't already use — one has actual math behind it.</p>
+      </article>
+      <article class="card">
+        <span class="tag">04</span>
+        <h3>You, participating</h3>
+        <p>Word clouds, two quizzes, a podium. Phones out.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= 3. My journey ================= -->
+  <section class="slide" data-slide-id="s03-journey">
+    <p class="eyebrow">The scenic route</p>
+    <h2>How I got here</h2>
+    <ol class="journey">
+      <li><span class="journey-dot"></span><h3>Prépa</h3><p>Two years of intense math &amp; physics</p></li>
+      <li><span class="journey-dot"></span><h3>Mines Paris</h3><p>Engineering school</p></li>
+      <li><span class="journey-dot"></span><h3>ITER internship</h3><p>Nuclear fusion research</p></li>
+      <li><span class="journey-dot"></span><h3>Berkeley internship</h3><p>UC Berkeley, USA</p></li>
+      <li class="journey-here"><span class="journey-dot"></span><h3>L'Oréal Summer STEM</h3><p>You are here</p></li>
+      <li><span class="journey-dot"></span><h3>Mines, senior year</h3><p>Back to finish the degree</p></li>
+      <li class="journey-open"><span class="journey-dot"></span><h3>?</h3><p>Stay tuned</p></li>
+    </ol>
+    <p class="footnote">Somewhere between fusion reactors and forecast algorithms, AI became the constant.</p>
+  </section>
+
+  <!-- ================= 4. Achievements (1 slide max) ================= -->
+  <section class="slide" data-slide-id="s04-achievements">
+    <p class="eyebrow">One slide, as promised</p>
+    <h2>What I actually did</h2>
+    <div class="cards cards--4">
+      <article class="card">
+        <h3>Monthly Assessment Tool</h3>
+        <p>Maintained and reworked the web app to be fully responsive.</p>
+      </article>
+      <article class="card">
+        <h3>Voice of the Demand Planners</h3>
+        <p>Ran feedback sessions with DPs on Touchless Forecasting.</p>
+      </article>
+      <article class="card">
+        <h3>Behind the curtain</h3>
+        <p>Sat down with the Companion &amp; L'OréalGPT architects to learn how the platform is actually built.</p>
+      </article>
+      <article class="card card--demo">
+        <h3>Built a Companion</h3>
+        <p>Shipped “Chat with Touchless BLOOM” — more on that shortly.</p>
+      </article>
+    </div>
+    <p class="footnote">That's the recap. The rest of this talk is what I think you should actually take away.</p>
+  </section>
+
+  <!-- ================= 5. Join ================= -->
+  <section class="slide slide--join" data-slide-id="s05-join">
     <div class="join-grid">
       <div>
-        <p class="eyebrow">Avant de commencer</p>
-        <h2>Sortez votre téléphone</h2>
+        <p class="eyebrow">Before we go further</p>
+        <h2>Get your phone out</h2>
         <ol class="steps">
-          <li>Scannez le QR code</li>
-          <li>Choisissez un pseudo</li>
-          <li>Gardez l'écran ouvert : sondages et mini-jeu arrivent</li>
+          <li>Scan the QR code</li>
+          <li>Pick a nickname (and an emoji)</li>
+          <li>Keep the tab open — word clouds and quizzes are coming</li>
         </ol>
-        <p class="join-url">ou allez sur <code id="join-url">…</code></p>
+        <p class="join-url">or go to <code id="join-url">…</code></p>
       </div>
       <figure class="qr-card">
-        <img id="qr-img" alt="QR code pour rejoindre la session" />
-        <figcaption><span id="qr-count">0</span> connectés</figcaption>
+        <img id="qr-img" alt="QR code to join the session" />
+        <figcaption><span id="qr-count">0</span> connected</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- ================= 3. Sondage 1 ================= -->
-  <section class="slide slide--activity" data-slide-id="s03-poll1" data-activity="poll-1">
-    <p class="eyebrow">Sondage 1 · <span class="placeholder">contenu bouchon</span></p>
-    <h2 class="activity-title">Où en êtes-vous avec l'IA générative ?</h2>
+  <!-- ================= 6. Word cloud warm-up ================= -->
+  <section class="slide slide--activity" data-slide-id="s06-wordcloud" data-activity="wordcloud-1">
+    <p class="eyebrow">Warm-up · no wrong answers</p>
+    <h2 class="activity-title">Word cloud time</h2>
     <div class="live" data-role="live"></div>
-    <div class="reveal" data-role="reveal"></div>
     <div class="activity-controls" data-role="controls"></div>
   </section>
 
-  <!-- ================= 4. Ce que j'ai fait (1 slide max) ================= -->
-  <section class="slide" data-slide-id="s04-recap">
-    <p class="eyebrow">En une slide, promis</p>
-    <h2>Ce que j'ai fait pendant le stage</h2>
-    <div class="cards cards--3">
-      <article class="card">
-        <h3>Projet principal</h3>
-        <p class="placeholder">Une phrase, pas plus. À remplir.</p>
-      </article>
-      <article class="card">
-        <h3>Outils construits</h3>
-        <p class="placeholder">Compagnons, automatisations, scripts. À remplir.</p>
-      </article>
-      <article class="card">
-        <h3>Ce que ça a changé</h3>
-        <p class="placeholder">Un chiffre ou un avant/après. À remplir.</p>
-      </article>
-    </div>
-    <p class="footnote">On passe vite : le cœur du sujet, c'est la suite.</p>
-  </section>
-
-  <!-- ================= 5. Reco 1 ================= -->
-  <section class="slide slide--reco" data-slide-id="s05-reco1">
-    <p class="eyebrow">Recommandation 1 / 3</p>
-    <h2>Le contexte fait 80 % du résultat</h2>
-    <div class="split">
+  <!-- ================= 7. Meet the Companions ================= -->
+  <section class="slide slide--media" data-slide-id="s07-companion-intro">
+    <div class="media-grid">
       <div>
+        <p class="eyebrow">Part 2 · Companion masterclass</p>
+        <h2>Meet L'OréalGPT's Companions</h2>
+        <p class="lede">Small confession: you're in this room, at this exact time, because a Companion of mine went through everyone's calendar and found this slot.</p>
         <ul class="bullets">
-          <li>Dire <b>qui</b> vous êtes et <b>pour qui</b> vous écrivez</li>
-          <li>Donner un <b>exemple</b> de ce que vous attendez</li>
-          <li>Coller la matière brute plutôt que la résumer</li>
+          <li>A <b>Companion</b> is a custom version of L'OréalGPT you configure once</li>
+          <li>Instructions, documents and settings baked in — no re-explaining yourself every time</li>
+          <li>It works your way, on demand, every single time</li>
         </ul>
       </div>
-      <div class="compare">
-        <div class="compare-col compare-col--bad">
-          <span class="tag">Avant</span>
-          <p class="placeholder">« Résume ce document. »</p>
-        </div>
-        <div class="compare-col compare-col--good">
-          <span class="tag">Après</span>
-          <p class="placeholder">Exemple long à écrire : rôle + audience + format + exemple.</p>
+      <figure class="figure">
+        <img src="img/companion-interface.png" alt="L'OréalGPT Companion interface, shown on a laptop" />
+        <figcaption>The Companion panel inside L'OréalGPT</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 8. Three flavours of Companion ================= -->
+  <section class="slide slide--media" data-slide-id="s08-companion-types">
+    <div class="media-grid media-grid--reverse">
+      <div>
+        <p class="eyebrow">Not all Companions are equal</p>
+        <h2>Three flavours, three scopes</h2>
+        <ul class="bullets bullets--lg">
+          <li><b>MyCompanion</b> — just for you, built in minutes, nothing to share</li>
+          <li><b>Team Companion</b> — shared with your team, still self-served</li>
+          <li><b>Métier Companion</b> — the whole business function, and it needs formal validation before it exists</li>
+        </ul>
+        <p class="footnote">Over <b>22,000</b> personal Companions have already been created org-wide. This is not a niche feature.</p>
+      </div>
+      <figure class="figure figure--screenshot">
+        <img src="img/companion-types.png" alt="The three Companion creation options in L'OréalGPT Studio" />
+        <figcaption>Studio's own picker: Métier, Team, My Companion</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 9. Lifecycle ================= -->
+  <section class="slide slide--media" data-slide-id="s09-companion-lifecycle">
+    <div class="media-grid">
+      <div>
+        <p class="eyebrow">Governance isn't an afterthought</p>
+        <h2>From idea to live Companion</h2>
+        <ol class="loop">
+          <li><b>Ideation</b> — Owner, Admins, Beta Testers assembled; the Métier Champion signs off first</li>
+          <li><b>Creation</b> — a Service Request spins it up, tagged <i>Draft</i></li>
+          <li><b>Build &amp; Test</b> — instructions written with CRAFT, then graded</li>
+          <li><b>Launch</b> — shipped to its real audience</li>
+          <li><b>Run</b> — live, monitored, iterated</li>
+        </ol>
+      </div>
+      <figure class="figure">
+        <img src="img/companion-lifecycle.png" alt="The five-phase Companion lifecycle: Ideation, Creation, Build & Test, Launch, Run" />
+        <figcaption>Official five-phase lifecycle</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 10. Anatomy + CRAFT ================= -->
+  <section class="slide slide--media" data-slide-id="s10-companion-anatomy">
+    <div class="media-grid media-grid--reverse">
+      <div>
+        <p class="eyebrow">What's actually inside one</p>
+        <h2>Four building blocks, one method</h2>
+        <p class="lede">Think of a Companion as a well-trained partner: it knows its job, has the right references, uses the right tools, and remembers your history.</p>
+        <div class="cards cards--1">
+          <article class="card"><h3>Instructions</h3><p>Read on every single request. Editable anytime.</p></article>
+          <article class="card"><h3>Documents / Library</h3><p>Reference files — up to 1,000 pages once AKS is on.</p></article>
+          <article class="card"><h3>Settings</h3><p>Model choice, web search, thinking steps, file uploads.</p></article>
+          <article class="card"><h3>Memory</h3><p>Ask it to remember, click the icon, or highlight text.</p></article>
         </div>
       </div>
+      <figure class="figure figure--screenshot">
+        <img src="img/craft-example.png" alt="A real CRAFT-structured Companion instruction set" />
+        <figcaption>A real instruction set — Context, Role, Action, Format, Test &amp; iterate</figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- ================= 6. Reco 2 ================= -->
-  <section class="slide slide--reco" data-slide-id="s06-reco2">
-    <p class="eyebrow">Recommandation 2 / 3</p>
-    <h2>Itérer plutôt que chercher le prompt parfait</h2>
+  <!-- ================= 11. Power-ups ================= -->
+  <section class="slide slide--media" data-slide-id="s11-companion-powerups">
+    <div class="media-grid">
+      <div>
+        <p class="eyebrow">Where it stops being a chatbot</p>
+        <h2>Giving it super-powers</h2>
+        <p class="lede">Simple Companion + Tool = Advanced Companion. Three tools actually available today:</p>
+        <div class="cards cards--1">
+          <article class="card">
+            <h3>📚 AKS — Agentic Knowledge Search</h3>
+            <p>Points at a library of up to 1,000 documents; reads titles first, then digs into the right ones.</p>
+          </article>
+          <article class="card">
+            <h3>📱 MCP — app connections</h3>
+            <p>A universal plug that lets it act inside real apps: send an email, schedule a meeting — not just talk about it.</p>
+          </article>
+          <article class="card">
+            <h3>📊 Conversational Analytics</h3>
+            <p>Wired to L'Oréal's data platform — a data analyst you can talk to. Needs sign-off first.</p>
+          </article>
+        </div>
+      </div>
+      <figure class="figure">
+        <img src="img/companion-powerup-formula.png" alt="Simple Companion plus Tool equals Advanced Companion with agent capabilities" />
+        <figcaption>The formula, straight from L'OréalGPT's own docs</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 12. Validation ================= -->
+  <section class="slide" data-slide-id="s12-companion-validation">
+    <p class="eyebrow">Before anyone else can use it</p>
+    <h2>Proving it actually works</h2>
     <div class="split">
-      <ul class="bullets">
-        <li>Premier jet volontairement imparfait</li>
-        <li>Corriger <b>une</b> chose à la fois</li>
-        <li>Garder le prompt qui a marché : c'est lui, le livrable</li>
+      <ul class="bullets bullets--lg">
+        <li>Minimum <b>80% accuracy</b> on an automatic test set to launch (waived for creative use cases)</li>
+        <li>At least <b>50 Q&amp;A pairs</b>, including out-of-scope ones — it has to know how to say “I don't know”</li>
+        <li>Real testers, real feedback, before it ever reaches Launch</li>
       </ul>
-      <ol class="loop">
-        <li>Demander</li>
-        <li>Lire</li>
-        <li>Corriger</li>
-        <li>Recommencer</li>
-      </ol>
+      <div>
+        <p class="code-box">
+          <span class="code-q">Q:</span> How many months does BLOOM use to calculate the splitting?<br />
+          <span class="code-a">A:</span> BLOOM uses the last 6 months of cleansed baseline to calculate the splitting weights (Spectrum). Updated automatically every month.
+        </p>
+        <p class="footnote">One real row from the Q&amp;A set I used to test my own Companion.</p>
+      </div>
     </div>
-    <p class="footnote placeholder">Ajouter ici un exemple réel en 3 tours.</p>
+    <p class="quote-block">“The Companion proposes. It's up to you to decide.”</p>
   </section>
 
-  <!-- ================= 7. Reco 3 ================= -->
-  <section class="slide slide--reco" data-slide-id="s07-reco3">
-    <p class="eyebrow">Recommandation 3 / 3</p>
-    <h2>Vérifier, toujours — surtout quand c'est bien écrit</h2>
-    <ul class="bullets bullets--lg">
-      <li>Demander les sources, puis les ouvrir</li>
-      <li>Recouper les chiffres hors de l'outil</li>
-      <li>Ne jamais coller de données confidentielles sans vérifier l'outil utilisé</li>
-    </ul>
-    <p class="footnote placeholder">Ajouter un exemple d'erreur crédible repérée à temps.</p>
+  <!-- ================= 13. My own Companions ================= -->
+  <section class="slide" data-slide-id="s13-companion-mine">
+    <p class="eyebrow">Putting it to work</p>
+    <h2>My own Companions</h2>
+    <p class="lede">Including, yes, the one that scheduled this meeting.</p>
+    <div class="figure-pair">
+      <figure class="figure figure--screenshot">
+        <img src="img/my-companion-bloom.png" alt="Configuration screen of the Chat with Touchless BLOOM Companion" />
+        <figcaption>“Chat with Touchless BLOOM” — my achievement #4</figcaption>
+      </figure>
+      <figure class="figure figure--screenshot">
+        <img src="img/my-studio.png" alt="Louis's own Studio companion list, including ManageMyCalendar" />
+        <figcaption>My Studio — ManageMyCalendar included</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <!-- ================= 8. Mini-jeu ================= -->
-  <section class="slide slide--activity" data-slide-id="s08-quiz" data-activity="quiz-1">
-    <p class="eyebrow">Mini-jeu · <span class="placeholder">contenu bouchon</span></p>
-    <h2 class="activity-title">Vrai ou faux de l'IA générative</h2>
+  <!-- ================= 14. Quiz: Companions ================= -->
+  <section class="slide slide--activity" data-slide-id="s14-quiz-companions" data-activity="quiz-companions">
+    <p class="eyebrow">Checkpoint</p>
+    <h2 class="activity-title">Did that stick?</h2>
     <div class="quiz-layout">
       <div class="live" data-role="live"></div>
       <aside class="leaderboard" data-role="leaderboard">
-        <h3>Classement</h3>
-        <ol id="leaderboard-list"><li class="empty">en attente…</li></ol>
+        <h3>Leaderboard</h3>
+        <ol id="leaderboard-list"><li class="empty">waiting…</li></ol>
       </aside>
     </div>
     <div class="reveal" data-role="reveal"></div>
     <div class="activity-controls" data-role="controls"></div>
   </section>
 
-  <!-- ================= 9. Anatomie d'un compagnon ================= -->
-  <section class="slide" data-slide-id="s09-companion-anatomy">
-    <p class="eyebrow">Micro-masterclass</p>
-    <h2>Anatomie d'un compagnon</h2>
-    <div class="cards cards--4">
-      <article class="card"><h3>1. Le rôle</h3><p class="placeholder">Qui il est, pour qui il travaille.</p></article>
-      <article class="card"><h3>2. Le contexte</h3><p class="placeholder">Les documents qu'il a sous la main.</p></article>
-      <article class="card"><h3>3. Le format</h3><p class="placeholder">La forme exacte de la réponse.</p></article>
-      <article class="card"><h3>4. Les garde-fous</h3><p class="placeholder">Ce qu'il ne doit jamais faire.</p></article>
-    </div>
-    <p class="footnote">Le minimum viable pour que quelqu'un reparte et crée le sien.</p>
-  </section>
-
-  <!-- ================= 10. Exemples de compagnons ================= -->
-  <!-- Démonstration du format "texte+image" : le visuel vit dans une <figure>,
-       la légende sous l'image. Les fichiers vont dans frontend_main/img/. -->
-  <section class="slide slide--media" data-slide-id="s10-companion-demo">
-    <p class="eyebrow">Trois exemples concrets</p>
-    <h2>Des compagnons que j'ai construits</h2>
-    <div class="media-grid">
-      <div>
-        <div class="cards cards--1">
-      <article class="card card--demo">
-        <span class="tag">Compagnon 1</span>
-        <h3 class="placeholder">Nom à remplir</h3>
-        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
-      </article>
-      <article class="card card--demo">
-        <span class="tag">Compagnon 2</span>
-        <h3 class="placeholder">Nom à remplir</h3>
-        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
-      </article>
-      <article class="card card--demo">
-        <span class="tag">Compagnon 3</span>
-        <h3 class="placeholder">Nom à remplir</h3>
-        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
-      </article>
-        </div>
-      </div>
-      <figure class="figure figure--screenshot">
-        <img src="img/demo-capture.png" alt="Capture d'écran d'un compagnon" />
-        <figcaption class="placeholder">Capture de test — dépose la vraie dans _content/images/</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- ================= 11. Sondage 2 ================= -->
-  <section class="slide slide--activity" data-slide-id="s11-poll2" data-activity="poll-2">
-    <p class="eyebrow">Sondage 2 · <span class="placeholder">contenu bouchon</span></p>
-    <h2 class="activity-title">Et maintenant ?</h2>
+  <!-- ================= 15. Prompting warm-up poll ================= -->
+  <section class="slide slide--activity" data-slide-id="s15-prompt-warmup" data-activity="poll-prompt-warmup">
+    <p class="eyebrow">Part 3 · The prompting playbook</p>
+    <h2 class="activity-title">Prompting instincts check</h2>
     <div class="live" data-role="live"></div>
     <div class="reveal" data-role="reveal"></div>
     <div class="activity-controls" data-role="controls"></div>
   </section>
 
-  <!-- ================= 12. À retenir ================= -->
-  <section class="slide slide--cover" data-slide-id="s12-takeaways">
-    <p class="eyebrow">Pour finir</p>
-    <h2>Trois choses à retenir</h2>
-    <ol class="takeaways">
-      <li><b>Le contexte</b> avant le prompt</li>
-      <li><b>Itérer</b> avant de juger</li>
-      <li><b>Vérifier</b> avant de diffuser</li>
-    </ol>
-    <p class="lede">Questions ?</p>
+  <!-- ================= 16. Tip: two workflow habits ================= -->
+  <section class="slide slide--reco" data-slide-id="s16-tip-workflow">
+    <p class="eyebrow">Tip 1 &amp; 2 · workflow habits</p>
+    <h2>Two habits worth stealing</h2>
+    <div class="split">
+      <div>
+        <h3 class="tip-name">The copy-paste box</h3>
+        <p>Don't hesitate to say: <i>“give me the result in a box I can copy-paste.”</i> A tiny formatting ask that saves a real re-typing tax, every time.</p>
+      </div>
+      <div>
+        <h3 class="tip-name">Search-and-replace, not global replace</h3>
+        <p>When you're fixing something, point at the exact spot — don't ask for a full regeneration. Smaller diffs, fewer new problems introduced along the way.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- ================= 13. Podium ================= -->
-  <section class="slide slide--podium" data-slide-id="s13-podium">
-    <p class="eyebrow">Et le gagnant est…</p>
-    <h2>Podium du mini-jeu</h2>
-    <div class="podium" id="podium">
-      <div class="podium-empty">Le classement s'affiche dès qu'il y a des points.</div>
+  <!-- ================= 17. Tip: negation ================= -->
+  <section class="slide slide--reco" data-slide-id="s17-tip-negation">
+    <p class="eyebrow">Tip 3 · the one with actual math behind it</p>
+    <h2>Everyone says “tell it what to do.” Try telling it what NOT to do.</h2>
+    <div class="split">
+      <div>
+        <ul class="bullets bullets--lg">
+          <li>A prompt carves out a target zone in an enormous space of possible answers</li>
+          <li>3 things you <b>ask for</b> mostly overlap — each new one adds less (diminishing returns)</li>
+          <li>3 things you <b>forbid</b> cut from 3 different directions — each removes fresh, independent territory</li>
+        </ul>
+        <p class="diagram-caption">For the curious: this is set-complement logic (De Morgan) plus Shannon entropy — a negative constraint acts like an SVM separating hyperplane, slicing off a whole half-space at once.</p>
+      </div>
+      <figure class="figure">
+        <svg viewBox="0 0 300 260" class="negation-diagram" role="img" aria-label="Diagram: positive instructions converge on a target, negative instructions cut independent regions from the edge">
+          <defs>
+            <marker id="negation-arrowhead" viewBox="0 0 10 10" refX="8" refY="5"
+                    markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)" />
+            </marker>
+          </defs>
+          <circle cx="150" cy="130" r="98" fill="var(--bg-soft)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" />
+          <g class="negation-cuts">
+            <circle cx="221" cy="61" r="30" />
+            <circle cx="54" cy="86" r="30" />
+            <circle cx="130" cy="222" r="30" />
+          </g>
+          <g class="negation-arrows">
+            <line x1="150" y1="40" x2="150" y2="106" />
+            <line x1="243" y1="176" x2="176" y2="146" />
+            <line x1="57" y1="176" x2="124" y2="146" />
+          </g>
+          <circle cx="150" cy="130" r="7" class="negation-target" />
+        </svg>
+        <figcaption>
+          <span class="diagram-legend"><span class="dot dot--do"></span> 3 do's converge on one target</span>
+          <span class="diagram-legend"><span class="dot dot--dont"></span> 3 don'ts cut from 3 directions</span>
+        </figcaption>
+      </figure>
     </div>
-    <p class="footnote">Bravo à tout le monde — et merci d'avoir joué le jeu.</p>
+  </section>
+
+  <!-- ================= 18. Tip: variables ================= -->
+  <section class="slide slide--reco" data-slide-id="s18-tip-variables">
+    <p class="eyebrow">Tip 4 · L'OréalGPT-specific</p>
+    <h2>Write the prompt once, reuse it forever</h2>
+    <div class="split">
+      <ul class="bullets bullets--lg">
+        <li>Companion instructions accept <b>dynamic variables</b> — placeholders filled in automatically</li>
+        <li>Declare them at the top, then write the conditional rules that use them</li>
+        <li>One instruction set, correct for every country, every date, every user</li>
+      </ul>
+      <div>
+        <p class="code-box code-box--mono">
+          Variables:<br />
+          &nbsp;&nbsp;{user.country}<br />
+          &nbsp;&nbsp;{current_date}<br /><br />
+          Rule:<br />
+          &nbsp;&nbsp;If {user.country} = "France",<br />
+          &nbsp;&nbsp;answer in French. Otherwise, English.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 19. Tip: verify ================= -->
+  <section class="slide slide--reco" data-slide-id="s19-tip-verify">
+    <p class="eyebrow">Tip 5 · the responsible-AI one</p>
+    <h2>Demand the receipts</h2>
+    <ul class="bullets bullets--lg">
+      <li>Ask exactly which document or data point an answer came from — if it can't say, treat it with suspicion</li>
+      <li>A confidence score is a statistical guess, not a guarantee — “92% sure” has been wrong before</li>
+      <li>Cross-check anything that would embarrass you if it were wrong, before it leaves the chat</li>
+    </ul>
+    <p class="footnote">Same principle your own AmplifAI self-assessment will test in a few minutes.</p>
+  </section>
+
+  <!-- ================= 20. Quiz: AI literacy ================= -->
+  <section class="slide slide--activity" data-slide-id="s20-quiz-ai-literacy" data-activity="quiz-ai-literacy">
+    <p class="eyebrow">Last one · a dry run for AmplifAI</p>
+    <h2 class="activity-title">AI literacy check</h2>
+    <div class="quiz-layout">
+      <div class="live" data-role="live"></div>
+      <aside class="leaderboard" data-role="leaderboard">
+        <h3>Leaderboard</h3>
+        <ol id="leaderboard-list"><li class="empty">waiting…</li></ol>
+      </aside>
+    </div>
+    <div class="reveal" data-role="reveal"></div>
+    <div class="activity-controls" data-role="controls"></div>
+  </section>
+
+  <!-- ================= 21. Podium ================= -->
+  <section class="slide slide--podium" data-slide-id="s21-podium">
+    <p class="eyebrow">And the winner is…</p>
+    <h2>Podium</h2>
+    <div class="podium" id="podium">
+      <div class="podium-empty">The podium fills in as soon as points are scored.</div>
+    </div>
+    <p class="footnote">Well played, everyone — thanks for actually playing along.</p>
+  </section>
+
+  <!-- ================= 22. Conclusion ================= -->
+  <section class="slide slide--cover" data-slide-id="s22-conclusion">
+    <p class="eyebrow">To wrap up</p>
+    <h2>Three things to remember</h2>
+    <ol class="takeaways">
+      <li><b>Context</b> before the prompt</li>
+      <li><b>Negatives</b> are as powerful as positives</li>
+      <li><b>Verify</b> before you trust it</li>
+    </ol>
+    <p class="lede">Thank you — questions?</p>
   </section>
 
 </main>
 
 <!-- Barre de navigation basse -->
 <footer class="nav">
-  <button id="nav-prev" aria-label="Slide precedente">◀</button>
+  <button id="nav-prev" aria-label="Previous slide">◀</button>
   <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
-  <button id="nav-next" aria-label="Slide suivante">▶</button>
+  <button id="nav-next" aria-label="Next slide">▶</button>
 </footer>
 
 <!-- Aide raccourcis -->
 <dialog id="help-dialog">
-  <h3>Raccourcis</h3>
+  <h3>Shortcuts</h3>
   <ul>
-    <li><kbd>→</kbd> / <kbd>Espace</kbd> — slide suivante</li>
-    <li><kbd>←</kbd> — slide précédente</li>
-    <li><kbd>O</kbd> — ouvrir les votes · <kbd>C</kbd> — les fermer</li>
-    <li><kbd>R</kbd> — révéler la bonne réponse (quiz)</li>
-    <li><kbd>N</kbd> — question suivante de l'activité</li>
-    <li><kbd>S</kbd> — injecter de faux participants (répétition)</li>
-    <li><kbd>Z</kbd> — remettre la session à zéro</li>
-    <li><kbd>F</kbd> — plein écran</li>
+    <li><kbd>→</kbd> / <kbd>Space</kbd> — next slide</li>
+    <li><kbd>←</kbd> — previous slide</li>
+    <li><kbd>O</kbd> — open voting · <kbd>C</kbd> — close it</li>
+    <li><kbd>R</kbd> — reveal the answer / show results</li>
+    <li><kbd>N</kbd> — next question · <kbd>P</kbd> — previous question</li>
+    <li><kbd>X</kbd> — reset the question on screen (clears its answers)</li>
+    <li><kbd>S</kbd> — seed fake participants (rehearsal)</li>
+    <li><kbd>Z</kbd> — reset the whole session</li>
+    <li><kbd>F</kbd> — fullscreen</li>
   </ul>
-  <form method="dialog"><button>Fermer</button></form>
+  <form method="dialog"><button>Close</button></form>
 </dialog>
 
 <script src="js/api.js"></script>
 <script src="js/live.js"></script>
 <script src="js/reveal.js"></script>
+<script src="js/wordcloud.js"></script>
 <script src="js/deck.js"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@
       viewBox: "0 0 200 200",
       class: "pie",
       role: "img",
-      "aria-label": "Répartition des réponses",
+      "aria-label": "Answer breakdown",
     });
 
     // Piste de fond : évite un trou blanc si personne n'a voté.
@@ -124,8 +124,8 @@
       const right = question.buckets.find((b) => b.option_id === question.correct_option_id);
       const wrong = question.buckets.filter((b) => b.option_id !== question.correct_option_id);
       return [
-        { title: "Ont trouvé", tone: "ok", voters: (right && right.voters) || [] },
-        { title: "Se sont trompés", tone: "ko", voters: wrong.flatMap((b) => b.voters) },
+        { title: "Got it right", tone: "ok", voters: (right && right.voters) || [] },
+        { title: "Got it wrong", tone: "ko", voters: wrong.flatMap((b) => b.voters) },
       ];
     }
 
@@ -150,7 +150,7 @@
 
       const list = el("div", "voters-list");
       if (panel.voters.length === 0) {
-        list.appendChild(el("span", "voters-empty", "personne"));
+        list.appendChild(el("span", "voters-empty", "nobody yet"));
       }
       panel.voters.forEach((voter, i) => {
         const chip = el("span", "voter-chip");
@@ -182,7 +182,7 @@
     let list = host.querySelector(".top5-list");
     if (!list) {
       host.innerHTML = "";
-      host.appendChild(el("h4", "top5-title", "Top 5 des votants"));
+      host.appendChild(el("h4", "top5-title", "Top 5"));
       list = el("ol", "top5-list");
       host.appendChild(list);
     }
@@ -190,7 +190,7 @@
     const top = (entries || []).slice(0, 5);
     if (top.length === 0) {
       list.innerHTML = "";
-      list.appendChild(el("li", "top5-empty", "pas encore de points"));
+      list.appendChild(el("li", "top5-empty", "no points yet"));
       return;
     }
 
@@ -280,7 +280,7 @@
     if (ranked.length === 0) {
       host.innerHTML = "";
       host.appendChild(
-        el("div", "podium-empty", "Le classement s'affiche dès qu'il y a des points.")
+        el("div", "podium-empty", "The podium fills in as soon as points are scored.")
       );
       return;
     }

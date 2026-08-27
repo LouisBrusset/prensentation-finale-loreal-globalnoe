@@ -21,7 +21,7 @@
   function renderQuestion(container, question, ctx) {
     if (!question) {
       container.innerHTML = "";
-      container.appendChild(el("p", "live-empty", "Activité pas encore ouverte."));
+      container.appendChild(el("p", "live-empty", "Not open yet."));
       return;
     }
 
@@ -39,12 +39,12 @@
     const head = el("div", "live-head");
     head.appendChild(el("span", "live-step", `Question ${ctx.index + 1} / ${ctx.total}`));
     head.appendChild(el("span", `live-badge live-badge--${ctx.status}`, {
-      idle: "fermée",
-      open: "votes ouverts",
-      closed: "votes fermés",
-      revealed: "réponse révélée",
+      idle: "closed",
+      open: "voting open",
+      closed: "voting closed",
+      revealed: "answer revealed",
     }[ctx.status] || ctx.status));
-    head.appendChild(el("span", "live-count", `${question.total_answers} réponses`));
+    head.appendChild(el("span", "live-count", `${question.total_answers} answers`));
     container.appendChild(head);
 
     container.appendChild(el("h3", "live-question", question.question_text));
@@ -91,15 +91,15 @@
       badge.className = `live-badge live-badge--${ctx.status}`;
       badge.textContent =
         {
-          idle: "fermée",
-          open: "votes ouverts",
-          closed: "votes fermés",
-          revealed: "réponse révélée",
+          idle: "closed",
+          open: "voting open",
+          closed: "voting closed",
+          revealed: "answer revealed",
         }[ctx.status] || ctx.status;
     }
 
     const count = container.querySelector(".live-count");
-    if (count) count.textContent = `${question.total_answers} réponses`;
+    if (count) count.textContent = `${question.total_answers} answers`;
 
     const revealed = ctx.status === "revealed";
     question.buckets.forEach((bucket) => {
@@ -129,7 +129,7 @@
     if (!list) return;
     list.innerHTML = "";
     if (!entries || entries.length === 0) {
-      list.appendChild(el("li", "empty", "en attente…"));
+      list.appendChild(el("li", "empty", "waiting..."));
       return;
     }
     entries.slice(0, 8).forEach((entry) => {

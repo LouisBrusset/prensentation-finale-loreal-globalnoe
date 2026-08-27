@@ -8,10 +8,11 @@ Présentation finale de stage, en trois morceaux :
 | **App participant** | `frontend_user/` | Ouverte au téléphone via QR code. Sondages et mini-jeu. |
 | **Backend** | `backend/` | FastAPI : stocke les réponses, agrège, pousse en temps réel (WebSocket). |
 
-> **État actuel : squelette technique validé.** Tout le contenu (slides, questions,
-> exemples de compagnons) est **du bouchon** et sert uniquement à prouver que la
-> mécanique tient. Le vrai contenu se remplace dans `frontend_main/index.html` et
-> `backend/app/data/content.py`, sans toucher au reste du code.
+> **Contenu final, en anglais.** 22 slides : parcours perso, masterclass
+> Companions (vraies captures d'écran L'Oréal GPT), 5 tips de prompting, 2
+> nuages de mots interactifs, 2 quiz et un podium partagé. Le texte des slides
+> vit dans `frontend_main/index.html`, les sondages/quiz/nuages de mots dans
+> `backend/app/data/content.py`.
 
 ---
 
@@ -67,7 +68,7 @@ tous avec les mêmes noms de cibles :
 |---|---|
 | `install` | Crée `.venv/` et installe tout |
 | `dev` | Lance l'API + les deux front-ends |
-| `test` | Tests backend (22 tests de fumée) |
+| `test` | Tests backend (33 tests) |
 | `lint` / `format` | Style (ruff) |
 | `ip` | IP LAN à donner aux téléphones |
 | `qr-lan` | Génère le QR code vers cette IP |
@@ -125,24 +126,34 @@ pour les **réseaux privés**.
 | `←` | Slide précédente |
 | `O` / `C` | Ouvrir / fermer les votes |
 | `R` | Révéler la bonne réponse (mini-jeu) |
-| `N` | Question suivante de l'activité |
+| `N` / `P` | Question suivante / précédente de l'activité |
+| `X` | Réinitialiser la question affichée (efface ses réponses) |
 | `S` | Injecter 25 faux participants (répétition) |
 | `Z` | Remettre la session à zéro |
 | `F` | Plein écran |
 | `?` | Rappel des raccourcis |
 
-Les slides marquées `data-activity` (3, 8 et 11) **ouvrent automatiquement**
-le sondage ou le jeu correspondant sur les téléphones quand tu arrives dessus.
+Les slides marquées `data-activity` **ouvrent automatiquement** l'activité
+correspondante sur les téléphones quand tu arrives dessus.
 
 ---
 
-## Contenu bouchon en place
+## Le contenu, en un coup d'œil
 
-- **13 slides** dans `frontend_main/index.html`
-- **Sondage 1** (slide 3) — 3 questions
-- **Mini-jeu quiz** (slide 8) — 4 questions chronométrées, score à la Kahoot + classement
-- **Sondage 2** (slide 11) — 3 questions
-- **Podium final** (slide 13) — les 3 premiers avec leur emoji
+22 slides dans `frontend_main/index.html`, contenu final (anglais) :
+
+| Slide(s) | Contenu |
+|---|---|
+| 1-4 | Titre, agenda, parcours perso, achievements (1 slide, comme demandé) |
+| 5-6 | Connexion + **nuage de mots** (2 tours : « Generative AI » puis « Companion ») |
+| 7-13 | Masterclass Companions — types, cycle de vie, anatomie, super-pouvoirs, validation, mes propres compagnons (vraies captures d'écran) |
+| 14 | **Quiz** — 4 questions sur les Companions, avec podium partagé |
+| 15-19 | Playbook de prompting — sondage d'ouverture + 5 tips (dont un schéma sur la négation dans les prompts) |
+| 20 | **Quiz** — 4 questions de culture IA générale |
+| 21-22 | Podium final, conclusion |
+
+Les captures d'écran viennent de `_content_unorganized/` (docs internes L'Oréal
+fournis par l'utilisateur) et sont recopiées, optimisées, dans `frontend_main/img/`.
 
 ## Ce qui se passe à l'écran
 
@@ -159,15 +170,17 @@ barres laissent la place à un triptyque :
 | Deux rectangles | qui a voté quoi — « ont trouvé » / « se sont trompés » sur le quiz, les deux options en tête sur un sondage |
 | Top 5 | les meilleurs votants, les lignes glissent les unes par-dessus les autres quand l'ordre change |
 
-**À la toute fin**, la slide 13 dresse le **podium** : les marches poussent depuis
-le sol, 2 · 1 · 3, médailles et emojis.
+**À la toute fin**, la slide podium dresse le classement : les marches poussent
+depuis le sol, 2 · 1 · 3, médailles et emojis — cumulé sur les deux quiz.
 
-Structure des slides conforme aux consignes de la réunion : une seule slide sur
-« ce que j'ai fait », le reste centré sur les recommandations d'usage de l'IA et
-la micro-masterclass compagnons. Rien sur Touchless.
+**Le nuage de mots** (slides 5-6) suit un principe différent : pas d'options
+fixées à l'avance, chaque participant tape 3 à 5 mots libres, le serveur les
+normalise et les agrège, et le deck les affiche en bulles (taille ∝ fréquence)
+qui poussent et se replacent en direct à mesure que les réponses arrivent.
 
-Tout ce qui reste à écrire est surligné en doré dans le deck (classe CSS
-`.placeholder`) : impossible de les rater à la relecture.
+Structure conforme aux consignes de la réunion : une seule slide sur « ce que
+j'ai fait », le reste centré sur la masterclass Companions et le prompting.
+Rien sur Touchless.
 
 ---
 

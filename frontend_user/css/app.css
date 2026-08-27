@@ -97,6 +97,7 @@ input[type="text"]:focus { outline: 2px solid var(--accent); border-color: trans
   cursor: pointer;
 }
 .primary:active { transform: scale(0.985); }
+.primary:disabled { opacity: 0.4; cursor: default; }
 
 .error { margin-top: 0.8rem; color: var(--ko); font-size: 0.9rem; }
 
@@ -223,3 +224,67 @@ input[type="text"]:focus { outline: 2px solid var(--accent); border-color: trans
 }
 
 .me-emoji { font-size: 1.05rem; line-height: 1; }
+
+/* ---------------------------- Saisie de mots ----------------------------- */
+.words-input { display: grid; gap: 0.7rem; margin-bottom: 1rem; }
+
+.word-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 2.2rem;
+}
+.word-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+  background: rgba(201, 162, 39, 0.16);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  animation: rise 0.2s ease;
+}
+.word-chip button {
+  width: 1.3rem; height: 1.3rem;
+  display: grid; place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--fg);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#word-form { display: flex; gap: 0.5rem; }
+#word-field {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  color: var(--fg);
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+}
+#word-field:focus { outline: 2px solid var(--accent); border-color: transparent; }
+#word-field:disabled { opacity: 0.5; }
+
+#word-add {
+  width: 3.2rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #16130a;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.word-counter {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--fg-dim);
+  text-align: right;
+}
+.word-counter--ready { color: var(--ok); font-weight: 600; }

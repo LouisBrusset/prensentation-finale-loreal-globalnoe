@@ -669,3 +669,169 @@ kbd {
 /* Une carte par ligne : utile quand les cartes partagent la slide avec une image. */
 .cards--1 { grid-template-columns: 1fr; }
 .cards--1 .card { padding: 0.9rem 1.1rem; }
+
+/* ========================================================================= */
+/*  Timeline personnelle (slide "My journey")                                */
+/* ========================================================================= */
+
+.journey {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 0.6rem;
+  position: relative;
+}
+.journey li {
+  flex: 1 1 9rem;
+  min-width: 8rem;
+  text-align: center;
+  position: relative;
+  padding-top: 1.6rem;
+}
+.journey-dot {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  border: 2px solid var(--accent);
+  transform: translateX(-50%);
+}
+.journey li::before {
+  content: "";
+  position: absolute;
+  top: 5px; left: -50%; width: 100%; height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: -1;
+}
+.journey li:first-child::before { display: none; }
+.journey h3 { margin: 0 0 0.15rem; font-size: 0.95rem; }
+.journey p { margin: 0; font-size: 0.72rem; color: var(--fg-dim); line-height: 1.3; }
+.journey-here .journey-dot { background: var(--accent); box-shadow: 0 0 0 5px var(--accent-soft); }
+.journey-here h3 { color: var(--accent); }
+.journey-open .journey-dot { border-style: dashed; }
+.journey-open h3 { color: var(--fg-dim); }
+
+/* ========================================================================= */
+/*  Boîtes texte : code / exemple, et citation                               */
+/* ========================================================================= */
+
+.code-box {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--fg-dim);
+}
+.code-box .code-q { color: var(--accent); font-weight: 700; }
+.code-box .code-a { color: var(--ok); font-weight: 700; }
+.code-box--mono { font-family: "Cascadia Code", "Consolas", ui-monospace, monospace; color: var(--fg); }
+
+.quote-block {
+  margin: 1.2rem 0 0;
+  padding-left: 1.2rem;
+  border-left: 3px solid var(--accent);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--fg);
+}
+
+.tip-name { color: var(--accent); font-size: 1.05rem; margin-bottom: 0.4rem; }
+
+/* ========================================================================= */
+/*  Diagramme "negation" (tip 3)                                             */
+/* ========================================================================= */
+
+.negation-diagram { width: 100%; max-width: 20rem; height: auto; }
+.negation-cuts circle {
+  fill: var(--bg);
+  stroke: var(--ko);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+.negation-arrows line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  marker-end: url(#negation-arrowhead);
+}
+.negation-target { fill: var(--accent); }
+
+.diagram-caption {
+  margin: 0.6rem 0 0;
+  font-size: 0.76rem;
+  font-style: italic;
+  color: var(--fg-dim);
+  line-height: 1.5;
+}
+.figure figcaption .diagram-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0.6rem;
+  font-style: normal;
+}
+.diagram-legend .dot {
+  width: 0.6rem; height: 0.6rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot--do { background: var(--accent); }
+.dot--dont { background: var(--ko); }
+
+/* ========================================================================= */
+/*  Nuage de mots (live)                                                     */
+/* ========================================================================= */
+
+.wc-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 620;
+  max-height: 60vh;
+  margin-top: 0.8rem;
+}
+.wc-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--fg-dim);
+  font-style: italic;
+}
+.wc-bubble {
+  position: absolute;
+  /* Toujours 1:1 — la hauteur suit `width` tout seule. Ne jamais fixer une
+     hauteur inline en JS, ça figerait cette regle (cf. wordcloud.js). */
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #16130a;
+  text-align: center;
+  padding: 0.3em;
+  overflow: hidden;
+  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              top 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.35s ease;
+  opacity: 0.94;
+}
+.wc-word {
+  font-weight: 700;
+  line-height: 1.1;
+  word-break: break-word;
+  max-width: 92%;
+}
+.wc-count {
+  font-size: 0.68em;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}

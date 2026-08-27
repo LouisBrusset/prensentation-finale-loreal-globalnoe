@@ -27,7 +27,7 @@
       `${((index + 1) / slides.length) * 100}%`;
     location.hash = slides[index].dataset.slideId;
 
-    if (slides[index].dataset.slideId === "s13-podium") refreshLeaderboard();
+    if (slides[index].dataset.slideId === "s21-podium") refreshLeaderboard();
     if (notify) scheduleSync();
   }
 
@@ -67,7 +67,10 @@
     if (activityId) {
       const alreadyOpen = session && session.activity_id === activityId;
       if (!alreadyOpen) {
-        api.admin("/api/admin/activity/open", { activity_id: activityId, question_index: 0 })
+        // `resume` et non `open` : on repart de la question où la salle en
+        // était, pas de la première. Quitter puis revenir sur la slide ne doit
+        // pas relancer l'activité depuis le début.
+        api.admin("/api/admin/activity/resume", { activity_id: activityId })
           .catch(console.warn);
       }
     } else if (session && session.activity_id) {
@@ -82,6 +85,12 @@
     return slides.find((s) => s.dataset.activity === activityId);
   }
 
+  /** Type reel de l'activite ("poll" | "quiz" | "wordcloud"), via les resultats deja recus. */
+  function activityKind(activityId) {
+    const results = resultsCache[activityId];
+    return results ? results.kind : null;
+  }
+
   function renderActive() {
     if (!session || !session.activity_id) return;
     const slide = activitySlide(session.activity_id);
@@ -91,12 +100,17 @@
     const live = slide.querySelector('[data-role="live"]');
     if (results && live) {
       const question = results.questions[session.question_index];
-      window.FPLive.renderQuestion(live, question, {
+      const ctx = {
         status: session.status,
         index: session.question_index,
         total: results.questions.length,
-      });
-      renderReveal(slide, question);
+      };
+      if (results.kind === "wordcloud") {
+        window.FPWordcloud.render(live, question, ctx);
+      } else {
+        window.FPLive.renderQuestion(live, question, ctx);
+        renderReveal(slide, question);
+      }
     }
     renderControls(slide);
   }
@@ -104,7 +118,7 @@
   /**
    * Le triptyque n'apparaît qu'au `reveal`, pas à la fermeture des votes :
    * fermer laisse un temps pour commenter les barres, révéler est le moment
-   * "spectacle".
+   * "spectacle". N'existe pas pour un nuage de mots (pas de notion de reveal).
    */
   function renderReveal(slide, question) {
     const host = slide.querySelector('[data-role="reveal"]');
@@ -122,6 +136,26 @@
     }
   }
 
+  /** Nombre de questions d'une activité, connu via les résultats déjà reçus. */
+  function questionCount(activityId) {
+    const results = resultsCache[activityId];
+    return results ? results.questions.length : Infinity;
+  }
+
+  /**
+   * Efface les réponses de la seule question affichée et rouvre les votes.
+   * Sert quand on revient sur une activité laissée en plan : sans ça, ceux
+   * qui avaient déjà répondu restent bloqués sur « too late ».
+   */
+  function resetCurrentQuestion() {
+    const total = session ? session.answers_count : 0;
+    const warning = total
+      ? `Clear ${total} response(s) for this question and reopen it?`
+      : "Reopen voting on this question?";
+    if (!confirm(warning)) return Promise.resolve();
+    return api.admin("/api/admin/activity/reset-question", {});
+  }
+
   // Signature du dernier rendu des boutons, par slide.
   const controlsSignature = new WeakMap();
 
@@ -129,33 +163,56 @@
     const host = slide.querySelector('[data-role="controls"]');
     if (!host) return;
     const isOpen = session && session.status === "open";
-    const isQuiz = slide.dataset.activity && slide.dataset.activity.startsWith("quiz");
+    const activityId = slide.dataset.activity;
+    const kind = activityKind(activityId);
+    const isQuiz = kind === "quiz";
+    const isWordcloud = kind === "wordcloud";
 
     // `state` est diffusé à CHAQUE réponse envoyée par un participant. Sans ce
     // garde-fou, les boutons étaient détruits et recréés plusieurs fois par
     // seconde : un clic tombant entre le mousedown et le mouseup n'atteignait
-    // jamais le bouton, et « Question suivante » semblait ne pas marcher.
-    const signature = `${slide.dataset.activity}|${session && session.question_index}|${
-      session && session.status
-    }`;
+    // jamais le bouton, et « Next » semblait ne pas marcher.
+    const signature = [
+      activityId,
+      kind, // null avant que les resultats arrivent, connu ensuite : doit invalider le cache
+      session && session.question_index,
+      session && session.status,
+      session && session.question_token,
+    ].join("|");
     if (controlsSignature.get(slide) === signature) return;
     controlsSignature.set(slide, signature);
 
+    const questionIndex = (session && session.question_index) || 0;
+    const total = questionCount(activityId);
+
     host.innerHTML = "";
     const buttons = [
-      { key: "o", label: isOpen ? "Votes ouverts" : "Ouvrir les votes", disabled: isOpen,
+      { key: "p", label: "◀ Previous", disabled: questionIndex === 0,
+        run: () => api.admin("/api/admin/activity/prev", {}) },
+      { key: "o", label: isOpen ? "Voting open" : "Open voting", disabled: isOpen,
         run: () => api.admin("/api/admin/activity/open",
-          { activity_id: slide.dataset.activity, question_index: session.question_index }) },
-      { key: "c", label: "Fermer", disabled: !isOpen,
+          { activity_id: activityId, question_index: session.question_index }) },
+      { key: "c", label: "Close", disabled: !isOpen,
         run: () => api.admin("/api/admin/activity/close", {}) },
-      // Révéler vaut aussi pour un sondage : c'est ce qui déclenche le
-      // triptyque (camembert + noms + top 5), pas seulement la bonne réponse.
-      { key: "r", label: isQuiz ? "Révéler la réponse" : "Afficher les résultats",
-        disabled: session && session.status === "revealed",
-        run: () => api.admin("/api/admin/activity/reveal", {}) },
-      { key: "n", label: "Question suivante",
-        run: () => api.admin("/api/admin/activity/next", {}) },
+      { key: "x", label: "Reset", run: resetCurrentQuestion },
     ];
+
+    // Révéler vaut aussi pour un sondage : c'est ce qui déclenche le
+    // triptyque (camembert + noms + top 5), pas seulement la bonne réponse.
+    // N'a pas de sens pour un nuage de mots : la bulle EST déjà le live view.
+    if (!isWordcloud) {
+      buttons.push({
+        key: "r",
+        label: isQuiz ? "Reveal answer" : "Show results",
+        disabled: session && session.status === "revealed",
+        run: () => api.admin("/api/admin/activity/reveal", {}),
+      });
+    }
+
+    buttons.push({
+      key: "n", label: "Next ▶", disabled: questionIndex >= total - 1,
+      run: () => api.admin("/api/admin/activity/next", {}),
+    });
 
     buttons.forEach((spec) => {
       const button = document.createElement("button");
@@ -174,10 +231,10 @@
     const dot = document.getElementById("hud-dot");
     dot.className = `hud-dot hud-dot--${online ? "ok" : mode === "polling" ? "warn" : "ko"}`;
     document.getElementById("hud-status").textContent = {
-      websocket: "temps réel",
-      polling: "mode secours (polling)",
-      reconnecting: "reconnexion…",
-      offline: "backend injoignable",
+      websocket: "live",
+      polling: "fallback mode (polling)",
+      reconnecting: "reconnecting...",
+      offline: "backend unreachable",
     }[mode] || mode;
   }
 
@@ -225,11 +282,13 @@
     // Ne pas avaler les erreurs ici : c'est ce qui rendait une touche muette
     // sans laisser la moindre trace dans la console.
     c: () => api.admin("/api/admin/activity/close", {}).catch(console.warn),
+    p: () => api.admin("/api/admin/activity/prev", {}).catch(console.warn),
+    x: () => resetCurrentQuestion().catch(console.warn),
     r: () => api.admin("/api/admin/activity/reveal", {}).catch(console.warn),
     n: () => api.admin("/api/admin/activity/next", {}).catch(console.warn),
     s: () => api.admin("/api/admin/seed", { participants: 25 }).catch(console.warn),
     z: () => {
-      if (confirm("Remettre la session a zero (participants + reponses) ?")) {
+      if (confirm("Reset the whole session (participants + answers)?")) {
         api.admin("/api/admin/reset", {}).catch(console.warn);
       }
     },

@@ -45,7 +45,11 @@ Toutes ces routes exigent l'en-tête `X-Admin-Token` (valeur : `FP_ADMIN_TOKEN`,
 | `POST` | `/api/admin/activity/open` | `{activity_id, question_index}` | Ouvre les votes |
 | `POST` | `/api/admin/activity/close` | `{}` | Ferme les votes |
 | `POST` | `/api/admin/activity/reveal` | `{}` | Révèle la bonne réponse (quiz) |
-| `POST` | `/api/admin/activity/next` | `{}` | Question suivante ; retour en idle après la dernière. Sans effet ni erreur si rien n'est ouvert |
+| `POST` | `/api/admin/activity/next` | `{}` | Question suivante ; reste sur la dernière au bout. Sans effet ni erreur si rien n'est ouvert |
+| `POST` | `/api/admin/activity/prev` | `{}` | Question précédente ; sans effet sur la première |
+| `POST` | `/api/admin/activity/goto` | `{activity_id, question_index}` | Saute sur n'importe quelle question |
+| `POST` | `/api/admin/activity/resume` | `{activity_id}` | Reprend l'activité là où elle en était |
+| `POST` | `/api/admin/activity/reset-question` | `{}` | Efface les réponses de la seule question courante et rouvre les votes |
 | `POST` | `/api/admin/activity/idle` | `{}` | Aucune activité en cours |
 | `POST` | `/api/admin/slide` | `{slide_index}` | Synchronise la slide affichée |
 | `POST` | `/api/admin/seed` | `{participants, answer_everything}` | Faux participants + réponses |
@@ -94,6 +98,34 @@ apparaît sous chacune des options qu'elle a cochées.
 Chaque participant en a un, choisi à l'inscription ou attribué au hasard parmi
 `avatar_emojis`. Tant que la palette n'est pas épuisée, deux personnes n'ont pas
 le même. Il est repris dans `voters`, dans le classement et sur le podium.
+
+## Naviguer dans une activité
+
+`next` et `prev` sont de la **navigation**, pas des commandes de vote. Le statut
+qui en découle dépend de l'état de la question visée, pas du sens de navigation :
+
+| Question visée | Statut obtenu | Ce que voit la salle |
+|---|---|---|
+| aucune réponse encore | `open` | la question, votes ouverts |
+| déjà des réponses | `closed` | les résultats, votes fermés |
+
+C'est ce qui permet de revenir commenter la question 1 sans rouvrir ses votes
+par accident. Pour forcer, il reste `open` (touche `O`) et `reset-question`
+(touche `X`).
+
+Aucun bouclage : `next` bute sur la dernière question, `prev` sur la première.
+Le retour au repos (`idle`) se fait en quittant la slide.
+
+### `reset-question` et le `question_token`
+
+Réinitialiser une question efface ses réponses, **rend les points de quiz**
+correspondants, et incrémente un compteur interne. Ce compteur entre dans le
+`question_token` renvoyé par `/api/session`.
+
+Les téléphones mémorisent le jeton du tour auquel ils ont répondu. Quand il
+change, ils oublient leur réponse et peuvent revoter. Une simple réouverture
+(`open`) ne le change pas : ceux qui ont déjà voté restent bloqués, comme il se
+doit.
 
 ## Statuts d'activité
 

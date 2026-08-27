@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0d0d0f" />
-  <title>Rejoindre la présentation</title>
+  <title>Join the Presentation</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/app.css" />
   <script src="config.js"></script>
@@ -20,56 +20,64 @@
 
 <main id="app">
 
-  <!-- Écran 1 : rejoindre -->
+  <!-- Screen 1: join -->
   <section class="screen is-active" id="screen-join">
-    <h1>Bienvenue 👋</h1>
-    <p class="sub">Choisissez un pseudo, il s'affichera dans le classement.</p>
+    <h1>Welcome 👋</h1>
+    <p class="sub">Pick a nickname — it'll show up on the leaderboard.</p>
     <form id="join-form">
       <input id="nickname" name="nickname" type="text" maxlength="24" required
-             autocomplete="off" placeholder="Votre pseudo" />
-      <p class="pick-label">Choisissez votre emoji <span class="pick-hint">(sinon, au hasard)</span></p>
-      <div class="emoji-grid" id="emoji-grid" role="radiogroup" aria-label="Choix de l'emoji"></div>
-      <button type="submit" class="primary">Rejoindre</button>
+             autocomplete="off" placeholder="Your nickname" />
+      <p class="pick-label">Pick your emoji <span class="pick-hint">(or leave it to chance)</span></p>
+      <div class="emoji-grid" id="emoji-grid" role="radiogroup" aria-label="Emoji picker"></div>
+      <button type="submit" class="primary">Join</button>
     </form>
     <p class="error" id="join-error" hidden></p>
   </section>
 
-  <!-- Écran 2 : salle d'attente -->
+  <!-- Screen 2: waiting room -->
   <section class="screen" id="screen-wait">
     <div class="waiting">
       <div class="spinner" aria-hidden="true"></div>
-      <h2 id="wait-title">C'est parti !</h2>
-      <p class="sub" id="wait-text">La prochaine question arrive sur grand écran.</p>
+      <h2 id="wait-title">Here we go!</h2>
+      <p class="sub" id="wait-text">The next question is coming up on the big screen.</p>
     </div>
   </section>
 
-  <!-- Écran 3 : question -->
+  <!-- Screen 3: question -->
   <section class="screen" id="screen-question">
     <div class="qmeta">
       <span id="q-step">Question 1</span>
       <span id="q-timer" class="timer" hidden></span>
     </div>
     <h2 id="q-text">…</h2>
-    <p class="hint" id="q-hint" hidden>Plusieurs réponses possibles</p>
+    <p class="hint" id="q-hint" hidden>Multiple answers allowed</p>
+
     <div class="options" id="q-options"></div>
-    <button class="primary" id="q-submit" hidden>Valider</button>
+
+    <!-- Free-text words (word cloud questions) -->
+    <div class="words-input" id="q-words" hidden>
+      <div class="word-chips" id="word-chips"></div>
+      <form id="word-form" autocomplete="off">
+        <input id="word-field" type="text" maxlength="24" placeholder="Type a word, press enter" />
+        <button type="submit" id="word-add" aria-label="Add word">+</button>
+      </form>
+      <p class="word-counter" id="word-counter">0 / 5 words (3 minimum)</p>
+    </div>
+
+    <button class="primary" id="q-submit" hidden>Submit</button>
   </section>
 
-  <!-- Écran 4 : réponse enregistrée -->
+  <!-- Screen 4: answer recorded -->
   <section class="screen" id="screen-done">
     <div class="waiting">
       <div class="check">✓</div>
-      <h2 id="done-title">Réponse enregistrée</h2>
-      <p class="sub" id="done-text">Regardez le grand écran.</p>
+      <h2 id="done-title">Got it!</h2>
+      <p class="sub" id="done-text">Look at the big screen.</p>
       <p class="points" id="done-points" hidden></p>
     </div>
   </section>
 
 </main>
-
-<footer class="foot">
-  <span class="placeholder-note">Version de test · données bouchon</span>
-</footer>
 
 <script src="js/api.js"></script>
 <script src="js/app.js"></script>

@@ -13,9 +13,10 @@
     session: null,
     activity: null,      // contenu de l'activité courante (questions, options)
     selection: new Set(),
+    words: [],           // mots saisis pour la question "words" en cours
     pickedEmoji: null,   // null = le serveur en tire un au hasard
-    answeredKey: null,   // "activityId:questionId" déjà répondu
-    renderedKey: null,   // "activityId:questionId" actuellement à l'écran
+    answeredKey: null,   // jeton du tour auquel ce téléphone a déjà répondu
+    renderedKey: null,   // jeton du tour actuellement à l'écran
     questionShownAt: 0,
     timerHandle: null,
   };
@@ -98,7 +99,7 @@
       remember(data.participant);
       applyState(data.session);
     } catch (err) {
-      error.textContent = "Impossible de joindre le serveur. Vérifiez le wifi puis réessayez.";
+      error.textContent = "Couldn't reach the server. Check your wifi and try again.";
       error.hidden = false;
       console.warn(err);
     }
@@ -113,8 +114,18 @@
     return state.activity;
   }
 
+  /**
+   * Identifie le tour en cours. Le serveur incrémente un compteur quand le
+   * présentateur réinitialise la question : le jeton change, et ce téléphone
+   * oublie qu'il avait déjà répondu. Une simple réouverture ne le change pas,
+   * donc on ne peut pas voter deux fois par accident.
+   */
+  function questionKey(activity, question, session) {
+    return (session && session.question_token) || `${activity.id}:${question.id}`;
+  }
+
   function renderQuestion(activity, question, session) {
-    const key = `${activity.id}:${question.id}`;
+    const key = questionKey(activity, question, session);
     if (state.answeredKey === key) {
       showScreen("done");
       return;
@@ -129,6 +140,7 @@
     state.renderedKey = key;
 
     state.selection.clear();
+    state.words = [];
     state.questionShownAt = Date.now();
 
     $("q-step").textContent =
@@ -136,20 +148,29 @@
     $("q-text").textContent = question.text;
     $("q-hint").hidden = question.kind !== "multi";
 
-    const host = $("q-options");
-    host.innerHTML = "";
-    question.options.forEach((option) => {
-      const button = document.createElement("button");
-      button.className = "option";
-      button.type = "button";
-      button.innerHTML =
-        `${option.emoji ? `<span class="emoji">${option.emoji}</span>` : ""}<span>${option.label}</span>`;
-      button.onclick = () => onPick(activity, question, option, button);
-      host.appendChild(button);
-    });
+    const isWords = question.kind === "words";
+    $("q-options").hidden = isWords;
+    $("q-words").hidden = !isWords;
 
-    // Le multi a besoin d'un bouton Valider ; le single valide au clic.
-    $("q-submit").hidden = question.kind !== "multi";
+    if (isWords) {
+      renderWordsInput(question);
+    } else {
+      const host = $("q-options");
+      host.innerHTML = "";
+      question.options.forEach((option) => {
+        const button = document.createElement("button");
+        button.className = "option";
+        button.type = "button";
+        button.innerHTML =
+          `${option.emoji ? `<span class="emoji">${option.emoji}</span>` : ""}<span>${option.label}</span>`;
+        button.onclick = () => onPick(activity, question, option, button);
+        host.appendChild(button);
+      });
+    }
+
+    // Single valide au clic ; multi et words ont besoin d'un bouton explicite.
+    $("q-submit").hidden = !(question.kind === "multi" || isWords);
+    $("q-submit").disabled = isWords; // active des que renderWordsInput() atteint le minimum
     $("q-submit").onclick = () => submit(activity, question);
 
     // Un retardataire peut arriver alors que le temps est deja ecoule : dans ce
@@ -173,27 +194,88 @@
     submit(activity, question);
   }
 
+  // ------------------------------------------------------------------ //
+  // Saisie libre de mots (nuage de mots)
+  // ------------------------------------------------------------------ //
+  function renderWordsInput(question) {
+    const chips = $("word-chips");
+    const counter = $("word-counter");
+    const field = $("word-field");
+    const form = $("word-form");
+
+    chips.innerHTML = "";
+    field.value = "";
+    field.disabled = false;
+
+    function refresh() {
+      const n = state.words.length;
+      counter.textContent = `${n} / ${question.max_words} words (${question.min_words} minimum)`;
+      counter.classList.toggle("word-counter--ready", n >= question.min_words);
+      field.disabled = n >= question.max_words;
+      $("q-submit").disabled = n < question.min_words || n > question.max_words;
+    }
+
+    function addWord(raw) {
+      const word = raw.trim();
+      if (!word || state.words.length >= question.max_words) return;
+      state.words.push(word);
+
+      const chip = document.createElement("span");
+      chip.className = "word-chip";
+      chip.appendChild(document.createTextNode(word));
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", `Remove "${word}"`);
+      remove.onclick = () => {
+        const i = state.words.indexOf(word);
+        if (i >= 0) state.words.splice(i, 1);
+        chip.remove();
+        refresh();
+      };
+      chip.appendChild(remove);
+      chips.appendChild(chip);
+      refresh();
+    }
+
+    form.onsubmit = (event) => {
+      event.preventDefault();
+      addWord(field.value);
+      field.value = "";
+      field.focus();
+    };
+
+    refresh();
+  }
+
   async function submit(activity, question) {
-    if (state.selection.size === 0) return;
+    const isWords = question.kind === "words";
+    if (isWords) {
+      if (state.words.length < question.min_words || state.words.length > question.max_words) return;
+    } else if (state.selection.size === 0) {
+      return;
+    }
     stopTimer();
+    const key = questionKey(activity, question, state.session);
 
     try {
       const result = await api.post(
         `/api/activities/${activity.id}/questions/${question.id}/answer`,
         {
           participant_id: state.participant.id,
-          option_ids: Array.from(state.selection),
+          option_ids: isWords ? [] : Array.from(state.selection),
+          words: isWords ? state.words : [],
           elapsed_ms: Date.now() - state.questionShownAt,
         }
       );
 
-      state.answeredKey = `${activity.id}:${question.id}`;
+      state.answeredKey = key;
 
       if (result.accepted) {
-        $("done-title").textContent = "Réponse enregistrée";
+        $("done-title").textContent = "Got it!";
         $("done-text").textContent = result.elapsed_ms
-          ? `en ${(result.elapsed_ms / 1000).toFixed(1)} s — regardez le grand écran.`
-          : "Regardez le grand écran.";
+          ? `in ${(result.elapsed_ms / 1000).toFixed(1)}s — look at the big screen.`
+          : "Look at the big screen.";
         if (result.awarded_points > 0) {
           $("done-points").textContent = `+${result.awarded_points} points`;
           $("done-points").hidden = false;
@@ -202,7 +284,7 @@
         }
         $("score").textContent = result.total_score > 0 ? `${result.total_score} pts` : "";
       } else {
-        $("done-title").textContent = "Trop tard !";
+        $("done-title").textContent = "Too late!";
         $("done-text").textContent = result.reason || "";
         $("done-points").hidden = true;
       }
@@ -247,8 +329,8 @@
 
   function timeUp() {
     stopTimer();
-    $("done-title").textContent = "Temps écoulé";
-    $("done-text").textContent = "Pas de points pour cette question.";
+    $("done-title").textContent = "Time's up";
+    $("done-text").textContent = "No points for this one.";
     $("done-points").hidden = true;
     showScreen("done");
   }
@@ -274,8 +356,8 @@
     if (!session.activity_id || session.status === "idle") {
       stopTimer();
       state.renderedKey = null;
-      $("wait-title").textContent = "C'est parti !";
-      $("wait-text").textContent = "La prochaine question arrive sur grand écran.";
+      $("wait-title").textContent = "Here we go!";
+      $("wait-text").textContent = "The next question is coming up on the big screen.";
       showScreen("wait");
       return;
     }
@@ -288,8 +370,7 @@
     }
 
     if (session.status === "open") {
-      const key = `${activity.id}:${question.id}`;
-      if (state.answeredKey === key) showScreen("done");
+      if (state.answeredKey === questionKey(activity, question, session)) showScreen("done");
       else renderQuestion(activity, question, session);
       return;
     }
@@ -299,8 +380,8 @@
     // redessine bien les boutons.
     stopTimer();
     state.renderedKey = null;
-    $("wait-title").textContent = "Votes fermés";
-    $("wait-text").textContent = "Les résultats sont sur le grand écran.";
+    $("wait-title").textContent = "Voting closed";
+    $("wait-text").textContent = "Results are on the big screen.";
     showScreen("wait");
   }
 
@@ -324,7 +405,7 @@
     showScreen("wait");
   } else {
     showScreen("join");
-    $("me").textContent = "non connecté";
+    $("me").textContent = "not connected";
     buildEmojiPicker();
   }
 })();

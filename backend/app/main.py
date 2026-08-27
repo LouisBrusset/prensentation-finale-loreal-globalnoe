@@ -17,7 +17,7 @@ import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -62,6 +62,20 @@ app.add_middleware(
 app.include_router(public.router)
 app.include_router(admin.router)
 app.include_router(qr.router)
+
+
+@app.middleware("http")
+async def no_cache_for_static(request: Request, call_next):
+    """Force le navigateur a revalider (ETag) plutot que de servir du cache
+    perime. StaticFiles ne pose pas de Cache-Control par defaut : sans ca, un
+    navigateur peut garder une vieille version de deck.js/app.js pendant les
+    repetitions, meme apres un simple F5 (`--reload` recharge le serveur,
+    pas le cache du navigateur).
+    """
+    response = await call_next(request)
+    if request.url.path.startswith(("/deck", "/app", "/static")):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
 
 
 @app.websocket("/ws")

@@ -6,8 +6,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-ActivityKind = Literal["poll", "quiz"]
-QuestionKind = Literal["single", "multi", "scale"]
+ActivityKind = Literal["poll", "quiz", "wordcloud"]
+QuestionKind = Literal["single", "multi", "scale", "words"]
 ActivityStatus = Literal["idle", "open", "closed", "revealed"]
 
 
@@ -29,6 +29,10 @@ class Question(BaseModel):
     correct_option_id: str | None = None
     points: int = 1000
     time_limit_s: int = 25
+    # Specifique kind="words" (wordcloud) : bornes sur le nombre de mots
+    # qu'un participant doit soumettre. Sans effet pour les autres kinds.
+    min_words: int = 3
+    max_words: int = 5
 
 
 class Activity(BaseModel):
@@ -77,6 +81,9 @@ class JoinResponse(BaseModel):
 class AnswerRequest(BaseModel):
     participant_id: str
     option_ids: list[str] = Field(default_factory=list)
+    # Specifique kind="words" : les mots soumis librement par le participant,
+    # non normalises (le serveur s'en charge pour l'agregation).
+    words: list[str] = Field(default_factory=list)
     elapsed_ms: int = 0
 
 
@@ -106,6 +113,10 @@ class SessionState(BaseModel):
     # serveur. Permet a un telephone qui rejoint en cours de route d'afficher
     # le meme compte a rebours que tout le monde, sans dependre de son horloge.
     elapsed_s: float = 0.0
+    # Identifie le "tour" de la question courante : change quand le presentateur
+    # reinitialise la question. Les telephones s'en servent pour savoir s'ils
+    # doivent oublier qu'ils avaient deja repondu.
+    question_token: str = ""
 
 
 class Voter(BaseModel):
@@ -153,6 +164,10 @@ class LeaderboardEntry(BaseModel):
 class OpenActivityRequest(BaseModel):
     activity_id: str
     question_index: int = 0
+
+
+class ResumeRequest(BaseModel):
+    activity_id: str
 
 
 class SlideRequest(BaseModel):

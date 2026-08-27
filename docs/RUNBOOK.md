@@ -25,12 +25,13 @@
 
 | Moment | Geste |
 |---|---|
-| Slide 2 | Laisser 60–90 s aux gens pour scanner. Le compteur sous le QR monte en direct. |
-| Slide 3 (sondage 1) | Les votes s'ouvrent tout seuls. `N` pour enchaîner, `R` pour afficher le triptyque de résultats. |
-| Slide 8 (mini-jeu) | `N` entre chaque question, `R` pour révéler avant de commenter. |
+| Slide 5 (join) | Laisser 60–90 s aux gens pour scanner. Le compteur sous le QR monte en direct. |
+| Slide 6 (nuage de mots) | 2 tours (« Generative AI » puis « Companion »). `N` pour passer au second tour, les bulles poussent toutes seules — pas de reveal ici. |
+| Slide 14 (quiz Companions) | `N` entre chaque question, `R` pour révéler avant de commenter. |
 | Après chaque `R` | Le triptyque s'affiche : camembert, qui a voté quoi, top 5. Laisser 10–15 s, c'est le moment où la salle réagit. |
-| Slide 13 (podium) | Dernière slide : le podium se dresse tout seul. |
-| Slide 11 (sondage 2) | Idem slide 3. |
+| Slide 15 (sondage prompting) | Pas de bonne réponse — sert à faire deviner la salle avant les tips. |
+| Slide 20 (quiz IA) | Idem slide 14, contribue au même classement. |
+| Slide 21 (podium) | Dernière étape avant la conclusion : le podium se dresse tout seul, cumulé sur les deux quiz. |
 
 Le compteur « X réponses » en haut à droite du graphe dit quand tout le monde a
 voté : c'est le signal pour passer à la suite, pas le chrono.
@@ -44,6 +45,8 @@ voté : c'est le signal pour passer à la suite, pas le chrono.
 | Voyant rouge **alors que le backend tourne** | Une vieille URL `?api=` est mémorisée dans le navigateur. Rouvrir le deck avec le bon `?api=…`, ou vider : `localStorage.removeItem('fp_api_base')` dans la console |
 | Personne ne peut scanner | Dicter l'URL affichée sous le QR |
 | Les téléphones restent bloqués en salle d'attente | Vérifier que le deck est bien sur une slide d'activité ; sinon `O` pour forcer l'ouverture |
+| Quelqu'un voit « trop tard » alors que le sondage reprend | `X` réinitialise la question affichée : les réponses sont effacées et tout le monde peut revoter |
+| Tu veux recommenter une question déjà passée | `P` y revient et réaffiche ses résultats, sans rouvrir les votes |
 | Les résultats semblent figés | `F5` sur le deck : il se resynchronise sur l'état serveur, rien n'est perdu |
 | Tout est cassé | Passer au PDF de secours et continuer sans l'interactif |
 

@@ -140,16 +140,16 @@ presentation_finale_loreal/
 │   │   ├── realtime.py       gestionnaire de connexions WebSocket
 │   │   ├── events.py         helpers de diffusion
 │   │   ├── qrcodes.py        génération PNG
-│   │   ├── data/content.py   ►► LE CONTENU (bouchon pour l'instant)
+│   │   ├── data/content.py   ►► LE CONTENU final (22 slides, anglais)
 │   │   └── routers/          public.py · admin.py · qr.py
-│   └── tests/test_smoke.py   22 tests de bout en bout
-├── frontend_main/            deck : index.html + css/ + config.js
-│                             js/ : api · deck · live (barres) · reveal (triptyque + podium)
-├── frontend_user/            app participant : idem
+│   └── tests/                43 tests (test_smoke, test_navigation, test_wordcloud)
+├── frontend_main/            deck : index.html + css/ + config.js + img/ (captures reelles)
+│                             js/ : api · deck · live (barres) · wordcloud (bulles) · reveal (triptyque + podium)
+├── frontend_user/            app participant : idem (+ saisie de mots libres)
 ├── scripts/gen_qr.py         QR codes en ligne de commande
 ├── static/qr/                QR générés (non versionnés)
 ├── docs/                     cette documentation
-├── _content/                 brouillons du vrai contenu
+├── _content_unorganized/     matiere premiere fournie par l'utilisateur (docs internes L'Oreal)
 ├── Makefile / make.{sh,ps1,cmd}  commandes de dev, un lanceur par shell
 └── pyproject.toml            dépendances (uv)
 ```
