@@ -1,0 +1,18 @@
+# Site Netlify n°2 (optionnel) : le deck.
+# Le jour J le deck tourne en local, ce site n'est utile que pour partager
+# la presentation apres coup ou repeter depuis une autre machine.
+# Dans l'UI Netlify : Base directory = frontend_main.
+
+[build]
+  publish = "."
+  command = ""
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-store"

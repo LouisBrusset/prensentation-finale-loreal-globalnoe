@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Présentation finale de stage — deck</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/deck.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+
+<!-- Bandeau d'état : connexion backend, nb de participants, aide clavier -->
+<header class="hud">
+  <span class="hud-dot" id="hud-dot" title="Etat de la connexion temps reel"></span>
+  <span id="hud-status">connexion…</span>
+  <span class="hud-sep">·</span>
+  <span><b id="hud-participants">0</b> participants</span>
+  <span class="hud-sep">·</span>
+  <span id="hud-slide">1 / 12</span>
+  <button class="hud-btn" id="hud-help" title="Raccourcis clavier">?</button>
+</header>
+
+<main id="deck">
+
+  <!-- ================= 1. Titre ================= -->
+  <section class="slide slide--cover" data-slide-id="s01-title">
+    <p class="eyebrow">Présentation finale de stage</p>
+    <h1>Six mois à apprendre<br />comment <em>vraiment</em> utiliser l'IA générative</h1>
+    <p class="lede">Louis Brusset — <span class="placeholder">date à confirmer</span></p>
+    <p class="footnote">Contenu bouchon : cette version sert à valider la technique.</p>
+  </section>
+
+  <!-- ================= 2. Rejoindre ================= -->
+  <section class="slide slide--join" data-slide-id="s02-join">
+    <div class="join-grid">
+      <div>
+        <p class="eyebrow">Avant de commencer</p>
+        <h2>Sortez votre téléphone</h2>
+        <ol class="steps">
+          <li>Scannez le QR code</li>
+          <li>Choisissez un pseudo</li>
+          <li>Gardez l'écran ouvert : sondages et mini-jeu arrivent</li>
+        </ol>
+        <p class="join-url">ou allez sur <code id="join-url">…</code></p>
+      </div>
+      <figure class="qr-card">
+        <img id="qr-img" alt="QR code pour rejoindre la session" />
+        <figcaption><span id="qr-count">0</span> connectés</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 3. Sondage 1 ================= -->
+  <section class="slide slide--activity" data-slide-id="s03-poll1" data-activity="poll-1">
+    <p class="eyebrow">Sondage 1 · <span class="placeholder">contenu bouchon</span></p>
+    <h2 class="activity-title">Où en êtes-vous avec l'IA générative ?</h2>
+    <div class="live" data-role="live"></div>
+    <div class="reveal" data-role="reveal"></div>
+    <div class="activity-controls" data-role="controls"></div>
+  </section>
+
+  <!-- ================= 4. Ce que j'ai fait (1 slide max) ================= -->
+  <section class="slide" data-slide-id="s04-recap">
+    <p class="eyebrow">En une slide, promis</p>
+    <h2>Ce que j'ai fait pendant le stage</h2>
+    <div class="cards cards--3">
+      <article class="card">
+        <h3>Projet principal</h3>
+        <p class="placeholder">Une phrase, pas plus. À remplir.</p>
+      </article>
+      <article class="card">
+        <h3>Outils construits</h3>
+        <p class="placeholder">Compagnons, automatisations, scripts. À remplir.</p>
+      </article>
+      <article class="card">
+        <h3>Ce que ça a changé</h3>
+        <p class="placeholder">Un chiffre ou un avant/après. À remplir.</p>
+      </article>
+    </div>
+    <p class="footnote">On passe vite : le cœur du sujet, c'est la suite.</p>
+  </section>
+
+  <!-- ================= 5. Reco 1 ================= -->
+  <section class="slide slide--reco" data-slide-id="s05-reco1">
+    <p class="eyebrow">Recommandation 1 / 3</p>
+    <h2>Le contexte fait 80 % du résultat</h2>
+    <div class="split">
+      <div>
+        <ul class="bullets">
+          <li>Dire <b>qui</b> vous êtes et <b>pour qui</b> vous écrivez</li>
+          <li>Donner un <b>exemple</b> de ce que vous attendez</li>
+          <li>Coller la matière brute plutôt que la résumer</li>
+        </ul>
+      </div>
+      <div class="compare">
+        <div class="compare-col compare-col--bad">
+          <span class="tag">Avant</span>
+          <p class="placeholder">« Résume ce document. »</p>
+        </div>
+        <div class="compare-col compare-col--good">
+          <span class="tag">Après</span>
+          <p class="placeholder">Exemple long à écrire : rôle + audience + format + exemple.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. Reco 2 ================= -->
+  <section class="slide slide--reco" data-slide-id="s06-reco2">
+    <p class="eyebrow">Recommandation 2 / 3</p>
+    <h2>Itérer plutôt que chercher le prompt parfait</h2>
+    <div class="split">
+      <ul class="bullets">
+        <li>Premier jet volontairement imparfait</li>
+        <li>Corriger <b>une</b> chose à la fois</li>
+        <li>Garder le prompt qui a marché : c'est lui, le livrable</li>
+      </ul>
+      <ol class="loop">
+        <li>Demander</li>
+        <li>Lire</li>
+        <li>Corriger</li>
+        <li>Recommencer</li>
+      </ol>
+    </div>
+    <p class="footnote placeholder">Ajouter ici un exemple réel en 3 tours.</p>
+  </section>
+
+  <!-- ================= 7. Reco 3 ================= -->
+  <section class="slide slide--reco" data-slide-id="s07-reco3">
+    <p class="eyebrow">Recommandation 3 / 3</p>
+    <h2>Vérifier, toujours — surtout quand c'est bien écrit</h2>
+    <ul class="bullets bullets--lg">
+      <li>Demander les sources, puis les ouvrir</li>
+      <li>Recouper les chiffres hors de l'outil</li>
+      <li>Ne jamais coller de données confidentielles sans vérifier l'outil utilisé</li>
+    </ul>
+    <p class="footnote placeholder">Ajouter un exemple d'erreur crédible repérée à temps.</p>
+  </section>
+
+  <!-- ================= 8. Mini-jeu ================= -->
+  <section class="slide slide--activity" data-slide-id="s08-quiz" data-activity="quiz-1">
+    <p class="eyebrow">Mini-jeu · <span class="placeholder">contenu bouchon</span></p>
+    <h2 class="activity-title">Vrai ou faux de l'IA générative</h2>
+    <div class="quiz-layout">
+      <div class="live" data-role="live"></div>
+      <aside class="leaderboard" data-role="leaderboard">
+        <h3>Classement</h3>
+        <ol id="leaderboard-list"><li class="empty">en attente…</li></ol>
+      </aside>
+    </div>
+    <div class="reveal" data-role="reveal"></div>
+    <div class="activity-controls" data-role="controls"></div>
+  </section>
+
+  <!-- ================= 9. Anatomie d'un compagnon ================= -->
+  <section class="slide" data-slide-id="s09-companion-anatomy">
+    <p class="eyebrow">Micro-masterclass</p>
+    <h2>Anatomie d'un compagnon</h2>
+    <div class="cards cards--4">
+      <article class="card"><h3>1. Le rôle</h3><p class="placeholder">Qui il est, pour qui il travaille.</p></article>
+      <article class="card"><h3>2. Le contexte</h3><p class="placeholder">Les documents qu'il a sous la main.</p></article>
+      <article class="card"><h3>3. Le format</h3><p class="placeholder">La forme exacte de la réponse.</p></article>
+      <article class="card"><h3>4. Les garde-fous</h3><p class="placeholder">Ce qu'il ne doit jamais faire.</p></article>
+    </div>
+    <p class="footnote">Le minimum viable pour que quelqu'un reparte et crée le sien.</p>
+  </section>
+
+  <!-- ================= 10. Exemples de compagnons ================= -->
+  <!-- Démonstration du format "texte+image" : le visuel vit dans une <figure>,
+       la légende sous l'image. Les fichiers vont dans frontend_main/img/. -->
+  <section class="slide slide--media" data-slide-id="s10-companion-demo">
+    <p class="eyebrow">Trois exemples concrets</p>
+    <h2>Des compagnons que j'ai construits</h2>
+    <div class="media-grid">
+      <div>
+        <div class="cards cards--1">
+      <article class="card card--demo">
+        <span class="tag">Compagnon 1</span>
+        <h3 class="placeholder">Nom à remplir</h3>
+        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
+      </article>
+      <article class="card card--demo">
+        <span class="tag">Compagnon 2</span>
+        <h3 class="placeholder">Nom à remplir</h3>
+        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
+      </article>
+      <article class="card card--demo">
+        <span class="tag">Compagnon 3</span>
+        <h3 class="placeholder">Nom à remplir</h3>
+        <p class="placeholder">Problème résolu · temps gagné · comment il est construit.</p>
+      </article>
+        </div>
+      </div>
+      <figure class="figure figure--screenshot">
+        <img src="img/demo-capture.png" alt="Capture d'écran d'un compagnon" />
+        <figcaption class="placeholder">Capture de test — dépose la vraie dans _content/images/</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= 11. Sondage 2 ================= -->
+  <section class="slide slide--activity" data-slide-id="s11-poll2" data-activity="poll-2">
+    <p class="eyebrow">Sondage 2 · <span class="placeholder">contenu bouchon</span></p>
+    <h2 class="activity-title">Et maintenant ?</h2>
+    <div class="live" data-role="live"></div>
+    <div class="reveal" data-role="reveal"></div>
+    <div class="activity-controls" data-role="controls"></div>
+  </section>
+
+  <!-- ================= 12. À retenir ================= -->
+  <section class="slide slide--cover" data-slide-id="s12-takeaways">
+    <p class="eyebrow">Pour finir</p>
+    <h2>Trois choses à retenir</h2>
+    <ol class="takeaways">
+      <li><b>Le contexte</b> avant le prompt</li>
+      <li><b>Itérer</b> avant de juger</li>
+      <li><b>Vérifier</b> avant de diffuser</li>
+    </ol>
+    <p class="lede">Questions ?</p>
+  </section>
+
+  <!-- ================= 13. Podium ================= -->
+  <section class="slide slide--podium" data-slide-id="s13-podium">
+    <p class="eyebrow">Et le gagnant est…</p>
+    <h2>Podium du mini-jeu</h2>
+    <div class="podium" id="podium">
+      <div class="podium-empty">Le classement s'affiche dès qu'il y a des points.</div>
+    </div>
+    <p class="footnote">Bravo à tout le monde — et merci d'avoir joué le jeu.</p>
+  </section>
+
+</main>
+
+<!-- Barre de navigation basse -->
+<footer class="nav">
+  <button id="nav-prev" aria-label="Slide precedente">◀</button>
+  <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+  <button id="nav-next" aria-label="Slide suivante">▶</button>
+</footer>
+
+<!-- Aide raccourcis -->
+<dialog id="help-dialog">
+  <h3>Raccourcis</h3>
+  <ul>
+    <li><kbd>→</kbd> / <kbd>Espace</kbd> — slide suivante</li>
+    <li><kbd>←</kbd> — slide précédente</li>
+    <li><kbd>O</kbd> — ouvrir les votes · <kbd>C</kbd> — les fermer</li>
+    <li><kbd>R</kbd> — révéler la bonne réponse (quiz)</li>
+    <li><kbd>N</kbd> — question suivante de l'activité</li>
+    <li><kbd>S</kbd> — injecter de faux participants (répétition)</li>
+    <li><kbd>Z</kbd> — remettre la session à zéro</li>
+    <li><kbd>F</kbd> — plein écran</li>
+  </ul>
+  <form method="dialog"><button>Fermer</button></form>
+</dialog>
+
+<script src="js/api.js"></script>
+<script src="js/live.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/deck.js"></script>
+</body>
+</html>

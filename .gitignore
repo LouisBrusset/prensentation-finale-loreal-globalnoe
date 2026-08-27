@@ -1,0 +1,40 @@
+# Python
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+uv.lock.bak
+
+# Dépendances et build
+build/
+dist/
+
+# Variables d'environnement
+.env
+.env.local
+.env.*.local
+
+# Generated assets
+static/qr/*.png
+static/qr/*.svg
+!static/qr/.gitkeep
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Netlify
+.netlify/

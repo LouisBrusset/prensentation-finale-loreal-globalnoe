@@ -1,0 +1,26 @@
+# Site Netlify n°1 : l'app participant (celle ouverte par le QR code).
+# Dans l'UI Netlify : Base directory = frontend_user, Publish directory = frontend_user.
+# Aucun build : ce sont trois fichiers statiques.
+
+[build]
+  publish = "."
+  command = ""
+
+# SPA-like : tout chemin inconnu retombe sur index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# config.js ne doit jamais etre mis en cache : c'est lui qui porte l'URL de l'API.
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-store"

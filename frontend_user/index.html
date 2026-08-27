@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0d0f" />
+  <title>Rejoindre la présentation</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+
+<header class="bar">
+  <span class="dot" id="dot"></span>
+  <span class="me-emoji" id="me-emoji"></span>
+  <span id="me">…</span>
+  <span class="score" id="score"></span>
+</header>
+
+<main id="app">
+
+  <!-- Écran 1 : rejoindre -->
+  <section class="screen is-active" id="screen-join">
+    <h1>Bienvenue 👋</h1>
+    <p class="sub">Choisissez un pseudo, il s'affichera dans le classement.</p>
+    <form id="join-form">
+      <input id="nickname" name="nickname" type="text" maxlength="24" required
+             autocomplete="off" placeholder="Votre pseudo" />
+      <p class="pick-label">Choisissez votre emoji <span class="pick-hint">(sinon, au hasard)</span></p>
+      <div class="emoji-grid" id="emoji-grid" role="radiogroup" aria-label="Choix de l'emoji"></div>
+      <button type="submit" class="primary">Rejoindre</button>
+    </form>
+    <p class="error" id="join-error" hidden></p>
+  </section>
+
+  <!-- Écran 2 : salle d'attente -->
+  <section class="screen" id="screen-wait">
+    <div class="waiting">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 id="wait-title">C'est parti !</h2>
+      <p class="sub" id="wait-text">La prochaine question arrive sur grand écran.</p>
+    </div>
+  </section>
+
+  <!-- Écran 3 : question -->
+  <section class="screen" id="screen-question">
+    <div class="qmeta">
+      <span id="q-step">Question 1</span>
+      <span id="q-timer" class="timer" hidden></span>
+    </div>
+    <h2 id="q-text">…</h2>
+    <p class="hint" id="q-hint" hidden>Plusieurs réponses possibles</p>
+    <div class="options" id="q-options"></div>
+    <button class="primary" id="q-submit" hidden>Valider</button>
+  </section>
+
+  <!-- Écran 4 : réponse enregistrée -->
+  <section class="screen" id="screen-done">
+    <div class="waiting">
+      <div class="check">✓</div>
+      <h2 id="done-title">Réponse enregistrée</h2>
+      <p class="sub" id="done-text">Regardez le grand écran.</p>
+      <p class="points" id="done-points" hidden></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span class="placeholder-note">Version de test · données bouchon</span>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

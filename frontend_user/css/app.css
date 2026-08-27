@@ -1,0 +1,225 @@
+/* ---------------------------------------------------------------------------
+ * App participant — mobile d'abord, gros boutons, une seule main.
+ * ------------------------------------------------------------------------- */
+
+:root {
+  --bg: #0d0d0f;
+  --bg-soft: #1a1a1f;
+  --fg: #f5f2ec;
+  --fg-dim: #9a9894;
+  --accent: #c9a227;
+  --ok: #81b29a;
+  --ko: #e07a5f;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+
+/* ------------------------------- Barre ---------------------------------- */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+  color: var(--fg-dim);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--fg-dim);
+}
+.dot--ok { background: var(--ok); }
+.dot--warn { background: var(--accent); }
+.dot--ko { background: var(--ko); }
+.score { margin-left: auto; color: var(--accent); font-weight: 700; }
+
+/* ------------------------------ Écrans ---------------------------------- */
+#app { flex: 1; display: flex; }
+
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.5rem 1.25rem;
+  animation: rise 0.25s ease;
+}
+.screen.is-active { display: flex; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+h1 { margin: 0 0 0.4rem; font-size: 1.9rem; }
+h2 { margin: 0 0 0.8rem; font-size: 1.4rem; line-height: 1.25; }
+.sub { margin: 0 0 1.4rem; color: var(--fg-dim); line-height: 1.45; }
+.hint { margin: -0.4rem 0 0.8rem; font-size: 0.85rem; color: var(--accent); }
+
+/* ----------------------------- Formulaire ------------------------------- */
+form { display: grid; gap: 0.8rem; }
+
+input[type="text"] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  color: var(--fg);
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+}
+input[type="text"]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+.primary {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #16130a;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.primary:active { transform: scale(0.985); }
+
+.error { margin-top: 0.8rem; color: var(--ko); font-size: 0.9rem; }
+
+/* ------------------------------ Question -------------------------------- */
+.qmeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--fg-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.timer {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-variant-numeric: tabular-nums;
+}
+.timer--urgent { background: rgba(224, 122, 95, 0.22); color: var(--ko); }
+
+.options { display: grid; gap: 0.7rem; margin-bottom: 1rem; }
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 3.6rem;
+  padding: 0.9rem 1rem;
+  font-size: 1.05rem;
+  text-align: left;
+  color: var(--fg);
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.option .emoji { font-size: 1.4rem; line-height: 1; }
+.option:active { transform: scale(0.99); }
+.option.is-picked {
+  border-color: var(--accent);
+  background: rgba(201, 162, 39, 0.14);
+}
+
+/* ------------------------------ Attente --------------------------------- */
+.waiting { text-align: center; display: grid; gap: 0.5rem; justify-items: center; }
+
+.spinner {
+  width: 44px; height: 44px;
+  margin-bottom: 0.6rem;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.check {
+  width: 60px; height: 60px;
+  display: grid; place-items: center;
+  margin-bottom: 0.4rem;
+  font-size: 1.9rem;
+  color: var(--ok);
+  border: 3px solid var(--ok);
+  border-radius: 50%;
+}
+
+.points {
+  margin: 0.4rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* -------------------------------- Pied ---------------------------------- */
+.foot {
+  padding: 0.8rem 1rem;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--fg-dim);
+  opacity: 0.7;
+}
+
+/* Écran large : on centre la colonne, ça reste lisible sur un laptop. */
+@media (min-width: 640px) {
+  #app { justify-content: center; }
+  .screen { max-width: 30rem; margin: 0 auto; }
+}
+
+/* --------------------------- Choix de l'emoji --------------------------- */
+.pick-label {
+  margin: 0.4rem 0 -0.2rem;
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+}
+.pick-hint { opacity: 0.65; }
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+}
+
+.emoji-choice {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.emoji-choice:active { transform: scale(0.92); }
+.emoji-choice.is-picked {
+  border-color: var(--accent);
+  background: rgba(201, 162, 39, 0.18);
+  transform: scale(1.06);
+}
+
+.me-emoji { font-size: 1.05rem; line-height: 1; }
